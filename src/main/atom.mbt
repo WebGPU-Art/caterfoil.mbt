@@ -4,7 +4,7 @@ struct Atom[T] {
 }
 
 ///|
-pub fn Atom::new[T](value : T) -> Atom[T] {
+pub fn Atom::with_value[T](value : T) -> Atom[T] {
   { value, }
 }
 

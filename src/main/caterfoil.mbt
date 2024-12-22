@@ -12,18 +12,14 @@ struct CaterfoilObjectOptions {
 ///|
 fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
   let obj = JsObject::new()
-  JsObject::set(obj, "label", JsValue::from_string(self.label))
-  JsObject::set(obj, "shader", JsValue::from_string(self.shader))
-  JsObject::set(
-    obj,
-    "topology",
-    JsValue::from_string(self.topology.to_string()),
-  )
+  obj.set("label", JsValue::from_string(self.label))
+  obj.set("shader", JsValue::from_string(self.shader))
+  obj.set("topology", JsValue::from_string(self.topology.to_string()))
   let attrs_list = JsArray::new()
   for attr in self.attrs_list {
     attrs_list.push(attr.as_value())
   }
-  JsObject::set(obj, "attrsList", attrs_list.as_value())
+  obj.set("attrsList", attrs_list.as_value())
   let data = JsArray::new()
   for val in self.data {
     let obj = JsObject::new()
@@ -32,11 +28,11 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
       for v in value {
         arr.push(JsValue::from_number(v))
       }
-      JsObject::set(obj, key, JsValue::from_array(arr))
+      obj.set(key, JsValue::from_array(arr))
     }
     data.push(JsValue::from_object(obj))
   }
-  JsObject::set(obj, "data", data.as_value())
+  obj.set("data", data.as_value())
   // indices
   let get_params = fn() -> JsValue {
     match self.get_params {
@@ -52,8 +48,8 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
       None => JsValue::from_bool(false)
     }
   }
-  JsObject::set(obj, "getParams", JsValue::from_fn(get_params))
-  JsObject::as_value(obj)
+  obj.set("getParams", JsValue::from_fn(get_params))
+  obj.as_value()
 }
 
 ///|
@@ -63,6 +59,11 @@ pub(all) enum ShaderPrimitiveTopology {
   LineStrip
   TriangleList
   TriangleStrip
+}
+
+///|
+fn ShaderPrimitiveTopology::default() -> ShaderPrimitiveTopology {
+  LineList
 }
 
 ///|
@@ -76,7 +77,9 @@ fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String 
   }
 }
 
-///|
+///| Converts the vertex format to its WebGPU string representation.
+/// These strings match the format names in the WebGPU specification.
+/// See: https://www.w3.org/TR/webgpu/#vertex-formats
 struct CaterfoilAttribute {
   field : String
   format : GPUVertexFormat
@@ -85,8 +88,8 @@ struct CaterfoilAttribute {
 ///|
 fn CaterfoilAttribute::as_value(self : CaterfoilAttribute) -> JsValue {
   let obj = JsObject::new()
-  JsObject::set(obj, "field", JsValue::from_string(self.field))
-  JsObject::set(obj, "format", JsValue::from_string(self.format.to_string()))
+  obj.set("field", JsValue::from_string(self.field))
+  obj.set("format", JsValue::from_string(self.format.to_string()))
   JsObject::as_value(obj)
 }
 

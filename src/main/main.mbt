@@ -7,7 +7,7 @@ struct Store {} derive(Default)
 enum Action {}
 
 ///|
-let store : Atom[Store] = Atom::new(Store::default())
+let store : Atom[Store] = Atom::with_value(Store::default())
 
 ///|
 fn dispatch() -> Unit {
