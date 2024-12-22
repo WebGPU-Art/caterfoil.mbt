@@ -94,11 +94,21 @@ fn CaterfoilAttribute::as_value(self : CaterfoilAttribute) -> JsValue {
 type CaterfoilRenderObject
 
 ///|
+extern "js" fn CaterfoilRenderObject::as_value(
+  self : CaterfoilRenderObject
+) -> JsValue =
+  #| (self) => self
+
+///|
 fn object(options : CaterfoilObjectOptions) -> CaterfoilRenderObject {
   caterfoil_object(options.as_value())
 }
 
 ///|
 pub fn group(children : Array[CaterfoilRenderObject]) -> CaterfoilRenderObject {
-  caterfoil_group(children)
+  let arr = JsArray::new()
+  for child in children {
+    arr.push(child.as_value())
+  }
+  caterfoil_group(arr)
 }

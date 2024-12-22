@@ -99,7 +99,9 @@ extern "js" fn caterfoil_object(options : JsValue) -> CaterfoilRenderObject =
   #| (options) => Caterfoil.object(options)
 
 ///|
-extern "js" fn caterfoil_group(
-  children : Array[CaterfoilRenderObject]
-) -> CaterfoilRenderObject =
-  #| (children) => { console.log(children); return Caterfoil.group({type: "group", children})}
+extern "js" fn caterfoil_group(children : JsArray) -> CaterfoilRenderObject =
+  #| (children) => ({type: "group", children})
+
+///| log_js_value
+extern "js" fn log_js_value(value : JsValue) -> Unit =
+  #| (value) => console.log(value)

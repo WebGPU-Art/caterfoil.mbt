@@ -71,18 +71,18 @@ fn comp_container() -> CaterfoilRenderObject {
   for vertex in vertex_list {
     data.push(vertex.to_value())
   }
-  // group([
-  object({
-    label: "triangle",
-    shader: triangle_wgsl,
-    topology: LineList,
-    attrs_list: [
-      { field: "position", format: Float32x4 },
-      { field: "color", format: Float32x4 },
-    ],
-    data,
-    indices: None,
-    get_params: None,
-  })
-  // ])
+  group([
+    object({
+      label: "triangle",
+      shader: triangle_wgsl,
+      topology: LineList,
+      attrs_list: [
+        { field: "position", format: Float32x4 },
+        { field: "color", format: Float32x4 },
+      ],
+      data,
+      indices: None,
+      get_params: None,
+    }),
+  ])
 }
