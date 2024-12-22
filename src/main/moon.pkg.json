@@ -7,5 +7,10 @@
       "command": ":embed -i $input -o $output --name triangle_wgsl"
     }
   ],
-  "import": []
+  "import": [
+    {
+      "path": "tiye/caterfoil/lib",
+      "alias": "caterfoil"
+    }
+  ]
 }

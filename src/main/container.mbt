@@ -56,7 +56,7 @@ fn Vertex::to_value(
 }
 
 ///|
-fn comp_container() -> CaterfoilRenderObject {
+fn comp_container() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   let vertex_list = [
     { position: Point4D::new(x=-100.0), color: Color::new(r=0.5, g=0.5, b=0.5) },
@@ -71,8 +71,8 @@ fn comp_container() -> CaterfoilRenderObject {
   for vertex in vertex_list {
     data.push(vertex.to_value())
   }
-  group([
-    object({
+  @caterfoil.group([
+    @caterfoil.object({
       label: "triangle",
       shader: triangle_wgsl,
       topology: LineList,

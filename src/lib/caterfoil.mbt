@@ -1,5 +1,5 @@
 ///|
-struct CaterfoilObjectOptions {
+pub(all) struct CaterfoilObjectOptions {
   label : String
   shader : String
   topology : ShaderPrimitiveTopology
@@ -80,7 +80,7 @@ fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String 
 ///| Converts the vertex format to its WebGPU string representation.
 /// These strings match the format names in the WebGPU specification.
 /// See: https://www.w3.org/TR/webgpu/#vertex-formats
-struct CaterfoilAttribute {
+pub(all) struct CaterfoilAttribute {
   field : String
   format : GPUVertexFormat
 }
@@ -103,7 +103,7 @@ extern "js" fn CaterfoilRenderObject::as_value(
   #| (self) => self
 
 ///|
-fn object(options : CaterfoilObjectOptions) -> CaterfoilRenderObject {
+pub fn object(options : CaterfoilObjectOptions) -> CaterfoilRenderObject {
   caterfoil_object(options.as_value())
 }
 
