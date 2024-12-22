@@ -1,0 +1,5 @@
+///|
+struct CaterfoilObjectOptions {}
+
+///|
+struct CaterfoilRenderObject {}
