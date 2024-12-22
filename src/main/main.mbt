@@ -1,13 +1,3 @@
-// import { paintCaterfoilTree } from "./paint.mjs";
-// import { renderCaterfoilTree, resetCanvasSize } from "./renderer.mjs";
-// import { initializeCanvasTextures, initializeContext } from "./initialize.js";
-// import { createTextureFromSource } from "./util.mjs";
-
-// import { compContainer } from "./app/container.mjs";
-// import { loadGamepadControl } from "./control.mjs";
-// import { setupMouseEvents } from "./events.mjs";
-// import { Atom } from "@triadica/touch-control";
-// import { V4 } from "./primes.mjs";
 // import { atomClearColor } from "./global.mjs";
 
 ///|
@@ -33,19 +23,16 @@ fn render_app() -> Unit {
 
 ///|
 fn loaded() -> Unit {
-  println("hello world")
-  let ctx = initialize_context().then(fn(content) {
-    // initializeCanvasTextures();
+  let _ret = initialize_context().then(fn(_ctx) {
+    initialize_canvas_textures()
     // atomClearColor.reset({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 });
-    println("initialized")
-    let document = document()
+    let window = window()
+    let document = window.document()
     let canvas = document.query_selector("canvas")
     render_app()
-    println("loaded")
-    let window = window()
     window.set_onresize(fn() {
       reset_canvas_size(canvas)
-      // initializeCanvasTextures()
+      initialize_canvas_textures()
       paint_caterfoil_tree()
     })
     reset_canvas_size(canvas)
@@ -61,7 +48,7 @@ fn loaded() -> Unit {
     paint_caterfoil_tree()
     js_undefined()
   })
-  println("hello world")
+
 }
 
 ///|

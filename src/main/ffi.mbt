@@ -14,9 +14,6 @@
 type Promise
 
 ///|
-type JsValue
-
-///|
 extern "js" fn Promise::then(
   self : Promise,
   f : (JsValue) -> JsValue
@@ -84,7 +81,7 @@ extern "js" fn Window::set_onload(self : Window, f : () -> Unit) -> Unit =
 type Document
 
 ///|
-pub extern "js" fn document() -> Document =
+pub extern "js" fn Window::document(self : Window) -> Document =
   #| () => document
 
 ///|
@@ -96,3 +93,13 @@ extern "js" fn Document::query_selector(
   selector : String
 ) -> Element =
   #| (document, selector) => document.querySelector(selector)
+
+///|
+extern "js" fn caterfoil_object(options : JsValue) -> CaterfoilRenderObject =
+  #| (options) => Caterfoil.object(options)
+
+///|
+extern "js" fn caterfoil_group(
+  children : Array[CaterfoilRenderObject]
+) -> CaterfoilRenderObject =
+  #| (children) => { console.log(children); return Caterfoil.group({type: "group", children})}
