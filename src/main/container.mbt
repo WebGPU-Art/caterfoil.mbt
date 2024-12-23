@@ -17,6 +17,11 @@ fn Point4D::new(x? : Float, y? : Float, z? : Float, w? : Float) -> Point4D {
 }
 
 ///|
+fn Point4D::scale(self : Point4D, t : Float) -> Point4D {
+  Point4D::{ x: self.x * t, y: self.y * t, z: self.z * t, w: self.w * t }
+}
+
+///|
 struct Color {
   r : Float
   g : Float
@@ -72,6 +77,8 @@ fn comp_container() -> @caterfoil.CaterfoilRenderObject {
     data.push(vertex.to_value())
   }
   @caterfoil.group([
+    // comp_lamp_tree(),
+    comp_fly_city(),
     @caterfoil.object({
       label: "triangle",
       shader: triangle_wgsl,

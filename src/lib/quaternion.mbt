@@ -69,12 +69,17 @@ pub fn Quaternion::id() -> Quaternion {
 
 ///| returns a quaternion from xyz
 pub fn Quaternion::new(
-  w : Float,
-  x : Float,
-  y : Float,
-  z : Float
+  w? : Float,
+  x? : Float,
+  y? : Float,
+  z? : Float
 ) -> Quaternion {
-  Quaternion::{ w, x, y, z }
+  Quaternion::{
+    w: w.or_default(),
+    x: x.or_default(),
+    y: y.or_default(),
+    z: z.or_default(),
+  }
 }
 
 ///| Scales a quaternion (element-wise) by a scalar, returns a new one
@@ -129,7 +134,7 @@ pub fn Quaternion::length(self : Quaternion) -> Float {
 }
 
 ///|
-impl Default for Quaternion with default() {
+pub impl Default for Quaternion with default() {
   Quaternion::{ w: 0.0, x: 0.0, y: 0.0, z: 0.0 }
 }
 
@@ -140,12 +145,12 @@ pub let max_value : Float = (0x7F7FFFFF).reinterpret_as_float()
 /// ```ignore
 /// |a-b|^2 < epsilon
 /// ```
-fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
+pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
   (self - other).square_length() < 1.0.to_float() / max_value
 }
 
 ///| Adds two quaternions, returns a new one.
-fn Quaternion::add(self : Quaternion, other : Quaternion) -> Quaternion {
+pub fn Quaternion::op_add(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w + other.w,
     x: self.x + other.x,
@@ -155,7 +160,7 @@ fn Quaternion::add(self : Quaternion, other : Quaternion) -> Quaternion {
 }
 
 ///| Adds two quaternions, returns a new one.
-fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit {
+pub fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit {
   self.w = self.w + other.w
   self.x = self.x + other.x
   self.y = self.y + other.y
@@ -163,7 +168,7 @@ fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit {
 }
 
 ///| Multiplies two quaternions, returns a new one.
-fn Quaternion::op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
+pub fn Quaternion::op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w * other.w - self.x * other.x - self.y * other.y - self.z * other.z,
     x: self.w * other.x + self.x * other.w + self.y * other.z - self.z * other.y,
@@ -173,7 +178,7 @@ fn Quaternion::op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
 }
 
 ///| Multiplies two quaternions, returns a new one.
-fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit {
+pub fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit {
   let w = self.w * other.w -
     self.x * other.x -
     self.y * other.y -
@@ -197,12 +202,12 @@ fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit {
 }
 
 ///|
-fn Quaternion::op_div(self : Quaternion, b : Quaternion) -> Quaternion {
+pub fn Quaternion::op_div(self : Quaternion, b : Quaternion) -> Quaternion {
   self.op_mul(b.inverse())
 }
 
 ///| substraction of two quaternions, returning new value
-fn Quaternion::op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
+pub fn Quaternion::op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w - other.w,
     x: self.x - other.x,
@@ -212,7 +217,7 @@ fn Quaternion::op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
 }
 
 ///| substraction of two quaternions, returning new value
-fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit {
+pub fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit {
   self.w = self.w - other.w
   self.x = self.x - other.x
   self.y = self.y - other.y
@@ -220,7 +225,7 @@ fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit {
 }
 
 ///| negate number
-fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
+pub fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
   Quaternion::{ w: -self.w, x: -self.x, y: -self.y, z: -self.z }
 }
 
