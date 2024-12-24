@@ -1,15 +1,15 @@
 ///|
 fn fold_line4(
   level : UInt,
-  base : @caterfoil.Quaternion,
-  v : @caterfoil.Quaternion,
-  a : @caterfoil.Quaternion,
-  b : @caterfoil.Quaternion,
-  c : @caterfoil.Quaternion,
-  d : @caterfoil.Quaternion,
-  full_ : @caterfoil.Quaternion,
+  base : @quaternion.Quaternion,
+  v : @quaternion.Quaternion,
+  a : @quaternion.Quaternion,
+  b : @quaternion.Quaternion,
+  c : @quaternion.Quaternion,
+  d : @quaternion.Quaternion,
+  full_ : @quaternion.Quaternion,
   minimal_seg : Float
-) -> Array[@caterfoil.Quaternion] {
+) -> Array[@quaternion.Quaternion] {
   let v_ = v * full_
   let br_a = v_ * a
   let br_b = v_ * b
@@ -32,13 +32,13 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   let lamp_tree = fold_line4(
     // 14,
     10,
-    @caterfoil.Quaternion::default(),
-    @caterfoil.Quaternion::new(y=100.0),
-    @caterfoil.Quaternion::new(y=20.0, w=22.0),
-    @caterfoil.Quaternion::new(x=16.0, y=20.0, w=23.0),
-    @caterfoil.Quaternion::new(x=16.0, y=20.0, w=27.0),
-    @caterfoil.Quaternion::new(y=20.0, w=28.0),
-    @caterfoil.Quaternion::new(w=50.0).inverse(),
+    @quaternion.Quaternion::default(),
+    @quaternion.Quaternion::new(y=100.0),
+    @quaternion.Quaternion::new(y=20.0, w=22.0),
+    @quaternion.Quaternion::new(x=16.0, y=20.0, w=23.0),
+    @quaternion.Quaternion::new(x=16.0, y=20.0, w=27.0),
+    @quaternion.Quaternion::new(y=20.0, w=28.0),
+    @quaternion.Quaternion::new(w=50.0).inverse(),
     0.02,
   )
   let data = []
@@ -74,13 +74,13 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   let fly_city = fold_line4(
     // 14,
     10,
-    @caterfoil.Quaternion::default(),
-    @caterfoil.Quaternion::new(x=200.0),
-    @caterfoil.Quaternion::new(y=20.0, w=25.0),
-    @caterfoil.Quaternion::new(x=5.0, y=20.0, z=10.0, w=25.0),
-    @caterfoil.Quaternion::new(x=5.0, y=20.0, z=10.0, w=15.0),
-    @caterfoil.Quaternion::new(y=20.0, w=15.0),
-    @caterfoil.Quaternion::new(w=50.0).inverse(),
+    @quaternion.Quaternion::default(),
+    @quaternion.Quaternion::new(x=200.0),
+    @quaternion.Quaternion::new(y=20.0, w=25.0),
+    @quaternion.Quaternion::new(x=5.0, y=20.0, z=10.0, w=25.0),
+    @quaternion.Quaternion::new(x=5.0, y=20.0, z=10.0, w=15.0),
+    @quaternion.Quaternion::new(y=20.0, w=15.0),
+    @quaternion.Quaternion::new(w=50.0).inverse(),
     0.16,
   )
   let data = []

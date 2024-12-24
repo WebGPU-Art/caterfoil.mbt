@@ -9,6 +9,10 @@
   ],
   "import": [
     {
+      "path": "tiye/quaternion/lib",
+      "alias": "quaternion"
+    },
+    {
       "path": "tiye/caterfoil/lib",
       "alias": "caterfoil",
       "value": []

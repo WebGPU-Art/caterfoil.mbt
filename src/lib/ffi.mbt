@@ -1,15 +1,3 @@
-// import { paintCaterfoilTree } from "./paint.mjs";
-// import { renderCaterfoilTree, resetCanvasSize } from "./renderer.mjs";
-// import { initializeCanvasTextures, initializeContext } from "./initialize.js";
-// import { createTextureFromSource } from "./util.mjs";
-
-// import { compContainer } from "./app/container.mjs";
-// import { loadGamepadControl } from "./control.mjs";
-// import { setupMouseEvents } from "./events.mjs";
-// import { Atom } from "@triadica/touch-control";
-// import { V4 } from "./primes.mjs";
-// import { atomClearColor } from "./global.mjs";
-
 ///|
 type Promise
 

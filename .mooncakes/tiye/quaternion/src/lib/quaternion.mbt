@@ -39,17 +39,23 @@
 //! ```
 //!
 
-// use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Sub, SubAssign};
-
-// use num_traits::Float;
-
 ///| Quaternion {w, x, y, z}
-// #[derive(Debug, Copy, Clone)]
 pub(all) struct Quaternion {
   mut w : Float
   mut x : Float
   mut y : Float
   mut z : Float
+} derive(Eq)
+
+// Show
+///|
+pub fn Quaternion::to_string(self : Quaternion) -> String {
+  "Quaternion { w: \{self.w}, x: \{self.x}, y: \{self.y}, z: \{self.z} }"
+}
+
+///|
+pub impl Show for Quaternion with output(self, logger) {
+  logger.write_string(self.to_string())
 }
 
 ///| shortcut of create quaternion
@@ -97,7 +103,7 @@ pub fn Quaternion::scale_mut(self : Quaternion, t : Float) -> Unit {
 
 ///| return a inverse of a quaternion
 pub fn Quaternion::inverse(self : Quaternion) -> Quaternion {
-  self.scale(1.0.to_float() / self.square_length()).conjugate()
+  self.conjugate().scale(1.0.to_float() / self.square_length())
 }
 
 ///| mutable version of inverse
