@@ -22,6 +22,16 @@ fn Point4D::scale(self : Point4D, t : Float) -> Point4D {
 }
 
 ///|
+fn Point4D::to_array(self : Point4D) -> Array[Float] {
+  [self.x, self.y, self.z, self.w]
+}
+
+///|
+fn Point4D::from_quaternion(q : @quaternion.Quaternion) -> Point4D {
+  Point4D::new(x=q.x, y=q.y, z=q.z, w=q.w)
+}
+
+///|
 struct Color {
   r : Float
   g : Float
@@ -66,6 +76,7 @@ fn comp_container() -> @caterfoil.CaterfoilRenderObject {
     // comp_lamp_tree(),
     // comp_fly_city(),
     // comp_axis(),
-    comp_quat_tree(),
+    // comp_quat_tree(),
+    comp_quat_curve(),
   ])
 }
