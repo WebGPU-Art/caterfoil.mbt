@@ -56,7 +56,7 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   }
   @caterfoil.object({
     label: "lamp-tree",
-    shader: triangle_wgsl,
+    shader: @caterfoil.lines_wgsl(),
     topology: LineStrip,
     attrs_list: [
       { field: "position", format: Float32x4 },
@@ -101,7 +101,7 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   }
   @caterfoil.object({
     label: "fly-city",
-    shader: triangle_wgsl,
+    shader: @caterfoil.lines_wgsl(),
     topology: LineStrip,
     attrs_list: [
       { field: "position", format: Float32x4 },

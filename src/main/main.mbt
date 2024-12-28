@@ -13,12 +13,12 @@ let store : @caterfoil.Atom[Store] = @caterfoil.Atom::with_value(
 
 ///|
 fn dispatch() -> Unit {
-  render_app()
+  render_app?().unwrap()
 }
 
 ///|
-fn render_app() -> Unit {
-  let tree = comp_container()
+fn render_app() -> Unit!BuilderError {
+  let tree = comp_container!()
   @caterfoil.render_caterfoil_tree(tree, dispatch)
   @caterfoil.paint_caterfoil_tree()
 }
@@ -31,7 +31,7 @@ fn loaded() -> Unit {
     let window = @caterfoil.window()
     let document = window.document()
     let canvas = document.query_selector("canvas")
-    render_app()
+    render_app?().unwrap()
     window.set_onresize(fn() {
       @caterfoil.reset_canvas_size(canvas)
       @caterfoil.initialize_canvas_textures()

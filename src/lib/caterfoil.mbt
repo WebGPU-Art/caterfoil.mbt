@@ -1,4 +1,43 @@
 ///|
+pub extern "js" fn initialize_context() -> Promise =
+  #| () => Caterfoil.initializeContext()
+
+///|
+pub extern "js" fn paint_caterfoil_tree() -> Unit =
+  #| () => Caterfoil.paintCaterfoilTree()
+
+///|
+pub extern "js" fn render_caterfoil_tree(
+  el : CaterfoilRenderObject,
+  dispatch : () -> Unit
+) -> Unit =
+  #| (el, dispatch) => Caterfoil.renderCaterfoilTree(el, dispatch)
+
+///|
+pub extern "js" fn reset_canvas_size(canvas : Element) -> Unit =
+  #| (canvas) => Caterfoil.resetCanvasSize(canvas)
+
+///|
+pub extern "js" fn initialize_canvas_textures() -> Unit =
+  #| () => Caterfoil.initializeCanvasTextures()
+
+///|
+pub extern "js" fn setup_mouse_events() -> Unit =
+  #| () => Caterfoil.setupMouseEvents()
+
+///|
+pub extern "js" fn load_gamepad_control() -> Unit =
+  #| () => Caterfoil.loadGamepadControl()
+
+///| need a better name from Caterfoil
+pub extern "js" fn lines_wgsl() -> String =
+  #| () => Caterfoil.triangleWgsl
+
+///|
+pub extern "js" fn polyline_wgsl() -> String =
+  #| () => Caterfoil.polylineWgsl
+
+///|
 pub(all) struct CaterfoilObjectOptions {
   label : String
   shader : String
@@ -52,31 +91,6 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
   obj.as_value()
 }
 
-///|
-pub(all) enum ShaderPrimitiveTopology {
-  PointList
-  LineList
-  LineStrip
-  TriangleList
-  TriangleStrip
-}
-
-///|
-fn ShaderPrimitiveTopology::default() -> ShaderPrimitiveTopology {
-  LineList
-}
-
-///|
-fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String {
-  match self {
-    PointList => "point-list"
-    LineList => "line-list"
-    LineStrip => "line-strip"
-    TriangleList => "triangle-list"
-    TriangleStrip => "triangle-strip"
-  }
-}
-
 ///| Converts the vertex format to its WebGPU string representation.
 /// These strings match the format names in the WebGPU specification.
 /// See: https://www.w3.org/TR/webgpu/#vertex-formats
@@ -114,24 +128,6 @@ pub fn group(children : Array[CaterfoilRenderObject]) -> CaterfoilRenderObject {
     arr.push(child.as_value())
   }
   caterfoil_group(arr)
-}
-
-///|
-pub(all) struct Color {
-  r : Float
-  g : Float
-  b : Float
-  a : Float
-}
-
-///|
-pub fn Color::new(r? : Float, g? : Float, b? : Float, a? : Float) -> Color {
-  Color::{
-    r: r.or_default(),
-    g: g.or_default(),
-    b: b.or_default(),
-    a: a.or_else(fn() { 1.0 }),
-  }
 }
 
 ///|
@@ -181,4 +177,14 @@ pub fn PolylineVertex::to_value(
   dict["direction"] = self.direction.to_xyzw()
   dict["side"] = [self.side.to_float()] // need int but JavaScript auto converts
   dict
+}
+
+///|
+pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
+  [
+    { field: "position", format: Float32x4 },
+    { field: "color", format: Float32x4 },
+    { field: "direction", format: Float32x4 },
+    { field: "side", format: Sint32 },
+  ]
 }

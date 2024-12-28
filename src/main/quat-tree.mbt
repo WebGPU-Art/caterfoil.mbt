@@ -76,7 +76,7 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
   }
   @caterfoil.object({
     label: "fly-city",
-    shader: triangle_wgsl,
+    shader: @caterfoil.lines_wgsl(),
     topology: LineList,
     attrs_list: [
       { field: "position", format: Float32x4 },

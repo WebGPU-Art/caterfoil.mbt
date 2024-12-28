@@ -20,37 +20,6 @@ pub extern "js" fn js_undefined() -> JsValue =
   #| () => undefined
 
 ///|
-pub extern "js" fn initialize_context() -> Promise =
-  #| () => Caterfoil.initializeContext()
-
-///|
-pub extern "js" fn paint_caterfoil_tree() -> Unit =
-  #| () => Caterfoil.paintCaterfoilTree()
-
-///|
-pub extern "js" fn render_caterfoil_tree(
-  el : CaterfoilRenderObject,
-  dispatch : () -> Unit
-) -> Unit =
-  #| (el, dispatch) => Caterfoil.renderCaterfoilTree(el, dispatch)
-
-///|
-pub extern "js" fn reset_canvas_size(canvas : Element) -> Unit =
-  #| (canvas) => Caterfoil.resetCanvasSize(canvas)
-
-///|
-pub extern "js" fn initialize_canvas_textures() -> Unit =
-  #| () => Caterfoil.initializeCanvasTextures()
-
-///|
-pub extern "js" fn setup_mouse_events() -> Unit =
-  #| () => Caterfoil.setupMouseEvents()
-
-///|
-pub extern "js" fn load_gamepad_control() -> Unit =
-  #| () => Caterfoil.loadGamepadControl()
-
-///|
 pub(all) type Window
 
 ///|

@@ -1,4 +1,79 @@
 ///|
+type! BuilderError String
+
+///|
+typealias PolylineVertex = @caterfoil.PolylineVertex
+
+///| turn a chunk of vertices into triangles data
+fn create_vertex_data(
+  chunk : Array[@caterfoil.Vertex],
+  width? : Float
+) -> Array[@hashmap.T[String, Array[Float]]]!BuilderError {
+  let data = []
+  let size = chunk.length()
+  if size < 2 {
+    raise BuilderError("chunk size must be at least 2")
+  }
+  for i = 0; i < size - 1; i = i + 1 {
+    let vertex = chunk[i]
+    let vertex_next = chunk[i + 1]
+    let direction = (vertex_next.position - vertex.position)
+      .normalize()
+      .scale(width.or(2.0))
+    /// 2 triangles
+    data.push(
+      PolylineVertex::{
+        position: vertex.position,
+        color: vertex.color,
+        direction,
+        side: 0,
+      }.to_value(),
+    )
+    data.push(
+      PolylineVertex::{
+        position: vertex_next.position,
+        color: vertex_next.color,
+        direction,
+        side: 0,
+      }.to_value(),
+    )
+    data.push(
+      PolylineVertex::{
+        position: vertex.position,
+        color: vertex.color,
+        direction,
+        side: 1,
+      }.to_value(),
+    )
+    data.push(
+      PolylineVertex::{
+        position: vertex.position,
+        color: vertex.color,
+        direction,
+        side: 1,
+      }.to_value(),
+    )
+    data.push(
+      PolylineVertex::{
+        position: vertex_next.position,
+        color: vertex_next.color,
+        direction,
+        side: 1,
+      }.to_value(),
+    )
+    data.push(
+      PolylineVertex::{
+        position: vertex_next.position,
+        color: vertex_next.color,
+        direction,
+        side: 0,
+      }.to_value(),
+    )
+  }
+  data
+}
+
+///|
 fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   let points : Array[@quaternion.Quaternion] = []
@@ -23,49 +98,29 @@ fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     let pos_next = p1
     let color = @caterfoil.Color::new(r=1.0)
     data.push(
-      @caterfoil.PolylineVertex::{ position: pos, color, direction, side: 0 }.to_value(),
+      PolylineVertex::{ position: pos, color, direction, side: 0 }.to_value(),
     )
     data.push(
-      @caterfoil.PolylineVertex::{
-        position: pos_next,
-        color,
-        direction,
-        side: 0,
-      }.to_value(),
+      PolylineVertex::{ position: pos_next, color, direction, side: 0 }.to_value(),
     )
     data.push(
-      @caterfoil.PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
+      PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
     )
     data.push(
-      @caterfoil.PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
+      PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
     )
     data.push(
-      @caterfoil.PolylineVertex::{
-        position: pos_next,
-        color,
-        direction,
-        side: 1,
-      }.to_value(),
+      PolylineVertex::{ position: pos_next, color, direction, side: 1 }.to_value(),
     )
     data.push(
-      @caterfoil.PolylineVertex::{
-        position: pos_next,
-        color,
-        direction,
-        side: 0,
-      }.to_value(),
+      PolylineVertex::{ position: pos_next, color, direction, side: 0 }.to_value(),
     )
   }
   @caterfoil.object({
     label: "triangle",
-    shader: polyline_wgsl,
+    shader: @caterfoil.polyline_wgsl(),
     topology: TriangleList,
-    attrs_list: [
-      { field: "position", format: Float32x4 },
-      { field: "color", format: Float32x4 },
-      { field: "direction", format: Float32x4 },
-      { field: "side", format: Sint32 },
-    ],
+    attrs_list: PolylineVertex::attrs(),
     data,
     indices: None,
     get_params: None,

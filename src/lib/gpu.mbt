@@ -1,4 +1,29 @@
 ///|
+pub(all) enum ShaderPrimitiveTopology {
+  PointList
+  LineList
+  LineStrip
+  TriangleList
+  TriangleStrip
+}
+
+///|
+fn ShaderPrimitiveTopology::default() -> ShaderPrimitiveTopology {
+  LineList
+}
+
+///|
+fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String {
+  match self {
+    PointList => "point-list"
+    LineList => "line-list"
+    LineStrip => "line-strip"
+    TriangleList => "triangle-list"
+    TriangleStrip => "triangle-strip"
+  }
+}
+
+///|
 pub(all) enum GPUVertexFormat {
   Uint8x2
   Uint8x4
