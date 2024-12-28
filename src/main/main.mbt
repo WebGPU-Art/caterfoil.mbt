@@ -17,7 +17,7 @@ fn dispatch() -> Unit {
 }
 
 ///|
-fn render_app() -> Unit!BuilderError {
+fn render_app() -> Unit!@caterfoil.BuilderError {
   let tree = comp_container!()
   @caterfoil.render_caterfoil_tree(tree, dispatch)
   @caterfoil.paint_caterfoil_tree()

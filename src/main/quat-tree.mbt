@@ -1,12 +1,12 @@
 ///|
 struct Branch {
-  from : @quaternion.Quaternion
-  to : @quaternion.Quaternion
+  from : Quaternion
+  to : Quaternion
 }
 
 ///|
 struct BaseBranch {
-  line : @quaternion.Quaternion
+  line : Quaternion
 }
 
 ///|
@@ -27,8 +27,8 @@ let transformers : Array[BaseBranch] = [
 
 ///|
 fn generate_lines(
-  base : @quaternion.Quaternion,
-  l0 : @quaternion.Quaternion,
+  base : Quaternion,
+  l0 : Quaternion,
   level : UInt
 ) -> Iter[Branch] {
   let line_to = base + l0
@@ -53,8 +53,8 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
   let scaled = 20.0.to_float()
   let data = []
   for branch in lines {
-    let v = @caterfoil.Vertex::{
-      position: @quaternion.Quaternion::new(
+    let v = Vertex::{
+      position: Quaternion::new(
         x=branch.from.x,
         y=branch.from.y,
         z=branch.from.z,
@@ -63,8 +63,8 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
-    let v = @caterfoil.Vertex::{
-      position: @quaternion.Quaternion::new(
+    let v = Vertex::{
+      position: Quaternion::new(
         x=branch.to.x,
         y=branch.to.y,
         z=branch.to.z,

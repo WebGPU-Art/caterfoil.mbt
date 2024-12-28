@@ -1,15 +1,15 @@
 ///|
 fn fold_line4(
   level : UInt,
-  base : @quaternion.Quaternion,
-  v : @quaternion.Quaternion,
-  a : @quaternion.Quaternion,
-  b : @quaternion.Quaternion,
-  c : @quaternion.Quaternion,
-  d : @quaternion.Quaternion,
-  full_ : @quaternion.Quaternion,
+  base : Quaternion,
+  v : Quaternion,
+  a : Quaternion,
+  b : Quaternion,
+  c : Quaternion,
+  d : Quaternion,
+  full_ : Quaternion,
   minimal_seg : Float
-) -> Array[@quaternion.Quaternion] {
+) -> Array[Quaternion] {
   let v_ = v * full_
   let br_a = v_ * a
   let br_b = v_ * b
@@ -32,24 +32,21 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   let lamp_tree = fold_line4(
     // 14,
     10,
-    @quaternion.Quaternion::default(),
-    @quaternion.Quaternion::new(y=100.0),
-    @quaternion.Quaternion::new(y=20.0, w=22.0),
-    @quaternion.Quaternion::new(x=16.0, y=20.0, w=23.0),
-    @quaternion.Quaternion::new(x=16.0, y=20.0, w=27.0),
-    @quaternion.Quaternion::new(y=20.0, w=28.0),
-    @quaternion.Quaternion::new(w=50.0).inverse(),
+    Quaternion::default(),
+    Quaternion::new(y=100.0),
+    Quaternion::new(y=20.0, w=22.0),
+    Quaternion::new(x=16.0, y=20.0, w=23.0),
+    Quaternion::new(x=16.0, y=20.0, w=27.0),
+    Quaternion::new(y=20.0, w=28.0),
+    Quaternion::new(w=50.0).inverse(),
     0.02,
   )
   let data = []
   for point in lamp_tree {
     let v = @caterfoil.Vertex::{
-      position: @quaternion.Quaternion::new(
-        x=point.x,
-        y=point.y,
-        z=point.z,
-        w=point.w,
-      ).scale(4.0),
+      position: Quaternion::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
+        4.0,
+      ),
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
@@ -77,24 +74,21 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   let fly_city = fold_line4(
     // 14,
     10,
-    @quaternion.Quaternion::default(),
-    @quaternion.Quaternion::new(x=200.0),
-    @quaternion.Quaternion::new(y=20.0, w=25.0),
-    @quaternion.Quaternion::new(x=5.0, y=20.0, z=10.0, w=25.0),
-    @quaternion.Quaternion::new(x=5.0, y=20.0, z=10.0, w=15.0),
-    @quaternion.Quaternion::new(y=20.0, w=15.0),
-    @quaternion.Quaternion::new(w=50.0).inverse(),
+    Quaternion::default(),
+    Quaternion::new(x=200.0),
+    Quaternion::new(y=20.0, w=25.0),
+    Quaternion::new(x=5.0, y=20.0, z=10.0, w=25.0),
+    Quaternion::new(x=5.0, y=20.0, z=10.0, w=15.0),
+    Quaternion::new(y=20.0, w=15.0),
+    Quaternion::new(w=50.0).inverse(),
     0.16,
   )
   let data = []
   for point in fly_city {
     let v = @caterfoil.Vertex::{
-      position: @quaternion.Quaternion::new(
-        x=point.x,
-        y=point.y,
-        z=point.z,
-        w=point.w,
-      ).scale(4.0),
+      position: Quaternion::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
+        4.0,
+      ),
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())

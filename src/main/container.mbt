@@ -1,5 +1,5 @@
 ///|
-fn comp_container() -> @caterfoil.CaterfoilRenderObject!BuilderError {
+fn comp_container() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
   @caterfoil.group([
     // comp_lamp_tree(),
     // comp_fly_city(),
