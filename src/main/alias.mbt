@@ -6,3 +6,6 @@ typealias Vertex = @caterfoil.Vertex
 
 ///|
 typealias PolylineVertex = @caterfoil.PolylineVertex
+
+///|
+typealias Color = @caterfoil.Color
