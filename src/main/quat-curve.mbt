@@ -22,31 +22,19 @@ fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     let pos = p0
     let pos_next = p1
     let color = @caterfoil.Color::new(r=1.0)
-    data.push(
-      PolylineVertex::{ position: pos, color, direction, side: 0 }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{ position: pos_next, color, direction, side: 0 }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{ position: pos, color, direction, side: 1 }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{ position: pos_next, color, direction, side: 1 }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{ position: pos_next, color, direction, side: 0 }.to_value(),
-    )
+    data.push(PolylineVertex::{ position: pos, color, direction, side: 0 })
+    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 0 })
+    data.push(PolylineVertex::{ position: pos, color, direction, side: 1 })
+    data.push(PolylineVertex::{ position: pos, color, direction, side: 1 })
+    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 1 })
+    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 0 })
   }
   @caterfoil.object({
     label: "triangle",
     shader: @caterfoil.polyline_wgsl(),
     topology: TriangleList,
     attrs_list: PolylineVertex::attrs(),
-    data,
+    data: WithTriangles(data),
     indices: None,
     get_params: None,
   })

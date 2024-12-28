@@ -43,13 +43,13 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   )
   let data = []
   for point in lamp_tree {
-    let v = @caterfoil.Vertex::{
+    let v = Vertex::{
       position: Quaternion::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
         4.0,
       ),
-      color: @caterfoil.Color::new(r=1.0, g=1.0),
+      color: Color::new(r=1.0, g=1.0),
     }
-    data.push(v.to_value())
+    data.push(v)
   }
   @caterfoil.object({
     label: "lamp-tree",
@@ -59,7 +59,7 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
       { field: "position", format: Float32x4 },
       { field: "color", format: Float32x4 },
     ],
-    data,
+    data: WithPoints(data),
     indices: None,
     get_params: None,
   })
@@ -91,7 +91,7 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
       ),
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
-    data.push(v.to_value())
+    data.push(v)
   }
   @caterfoil.object({
     label: "fly-city",
@@ -101,7 +101,7 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
       { field: "position", format: Float32x4 },
       { field: "color", format: Float32x4 },
     ],
-    data,
+    data: WithPoints(data),
     indices: None,
     get_params: None,
   })

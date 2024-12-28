@@ -38,12 +38,40 @@ pub extern "js" fn polyline_wgsl() -> String =
   #| () => Caterfoil.polylineWgsl
 
 ///|
+pub(all) enum ObjectData {
+  WithPoints(Array[Vertex])
+  WithTriangles(Array[PolylineVertex])
+}
+
+///|
+fn ObjectData::to_data(
+  self : ObjectData
+) -> Array[@hashmap.T[String, Array[Float]]] {
+  match self {
+    ObjectData::WithPoints(data) => {
+      let ret = []
+      for vertex in data {
+        ret.push(vertex.to_value())
+      }
+      ret
+    }
+    ObjectData::WithTriangles(data) => {
+      let ret = []
+      for vertex in data {
+        ret.push(vertex.to_value())
+      }
+      ret
+    }
+  }
+}
+
+///|
 pub(all) struct CaterfoilObjectOptions {
   label : String
   shader : String
   topology : ShaderPrimitiveTopology
   attrs_list : Array[CaterfoilAttribute]
-  data : Array[@moonbitlang/core/hashmap.T[String, Array[Float]]] // not sure
+  data : ObjectData
   indices : Array[UInt]?
   get_params : (() -> Array[Float])?
 }
@@ -60,7 +88,7 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
   }
   obj.set("attrsList", attrs_list.as_value())
   let data = JsArray::new()
-  for val in self.data {
+  for val in self.data.to_data() {
     let obj = JsObject::new()
     for key, value in val {
       let arr = JsArray::new()

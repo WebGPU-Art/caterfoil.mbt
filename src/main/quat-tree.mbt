@@ -62,7 +62,7 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
       ).scale(scaled),
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
-    data.push(v.to_value())
+    data.push(v)
     let v = Vertex::{
       position: Quaternion::new(
         x=branch.to.x,
@@ -72,7 +72,7 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
       ).scale(scaled),
       color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
-    data.push(v.to_value())
+    data.push(v)
   }
   @caterfoil.object({
     label: "fly-city",
@@ -82,7 +82,7 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
       { field: "position", format: Float32x4 },
       { field: "color", format: Float32x4 },
     ],
-    data,
+    data: WithPoints(data),
     indices: None,
     get_params: None,
   })

@@ -64,7 +64,7 @@ pub(all) type! BuilderError String
 pub fn create_vertex_data(
   chunk : Array[Vertex],
   width? : Float
-) -> Array[@hashmap.T[String, Array[Float]]]!BuilderError {
+) -> Array[PolylineVertex]!BuilderError {
   let data = []
   let size = chunk.length()
   if size < 2 {
@@ -77,54 +77,42 @@ pub fn create_vertex_data(
       .normalize()
       .scale(width.or(2.0))
     /// 2 triangles
-    data.push(
-      PolylineVertex::{
-        position: vertex.position,
-        color: vertex.color,
-        direction,
-        side: 0,
-      }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{
-        position: vertex_next.position,
-        color: vertex_next.color,
-        direction,
-        side: 0,
-      }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{
-        position: vertex.position,
-        color: vertex.color,
-        direction,
-        side: 1,
-      }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{
-        position: vertex.position,
-        color: vertex.color,
-        direction,
-        side: 1,
-      }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{
-        position: vertex_next.position,
-        color: vertex_next.color,
-        direction,
-        side: 1,
-      }.to_value(),
-    )
-    data.push(
-      PolylineVertex::{
-        position: vertex_next.position,
-        color: vertex_next.color,
-        direction,
-        side: 0,
-      }.to_value(),
-    )
+    data.push(PolylineVertex::{
+      position: vertex.position,
+      color: vertex.color,
+      direction,
+      side: 0,
+    })
+    data.push(PolylineVertex::{
+      position: vertex_next.position,
+      color: vertex_next.color,
+      direction,
+      side: 0,
+    })
+    data.push(PolylineVertex::{
+      position: vertex.position,
+      color: vertex.color,
+      direction,
+      side: 1,
+    })
+    data.push(PolylineVertex::{
+      position: vertex.position,
+      color: vertex.color,
+      direction,
+      side: 1,
+    })
+    data.push(PolylineVertex::{
+      position: vertex_next.position,
+      color: vertex_next.color,
+      direction,
+      side: 1,
+    })
+    data.push(PolylineVertex::{
+      position: vertex_next.position,
+      color: vertex_next.color,
+      direction,
+      side: 0,
+    })
   }
   data
 }
