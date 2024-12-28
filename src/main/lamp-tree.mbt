@@ -55,10 +55,7 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
     label: "lamp-tree",
     shader: @caterfoil.lines_wgsl(),
     topology: LineStrip,
-    attrs_list: [
-      { field: "position", format: Float32x4 },
-      { field: "color", format: Float32x4 },
-    ],
+    attrs_list: Vertex::attrs(),
     data: WithPoints(data),
     indices: None,
     get_params: None,
@@ -85,22 +82,17 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   )
   let data = []
   for point in fly_city {
-    let v = @caterfoil.Vertex::{
-      position: Quaternion::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
-        4.0,
-      ),
-      color: @caterfoil.Color::new(r=1.0, g=1.0),
+    let v = Vertex::{
+      position: point.scale(4.0),
+      color: Color::new(r=1.0, g=1.0),
     }
     data.push(v)
   }
   @caterfoil.object({
-    label: "fly-city",
+    label: "lamp-tree",
     shader: @caterfoil.lines_wgsl(),
     topology: LineStrip,
-    attrs_list: [
-      { field: "position", format: Float32x4 },
-      { field: "color", format: Float32x4 },
-    ],
+    attrs_list: Vertex::attrs(),
     data: WithPoints(data),
     indices: None,
     get_params: None,

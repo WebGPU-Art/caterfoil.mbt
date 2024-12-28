@@ -21,7 +21,7 @@ fn comp_axis() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
     @caterfoil.create_vertex_data!(axis_z, width=2) +
     @caterfoil.create_vertex_data!(axis_w, width=2)
   @caterfoil.object({
-    label: "triangle",
+    label: "axis",
     shader: @caterfoil.polyline_wgsl(),
     topology: TriangleList,
     attrs_list: @caterfoil.PolylineVertex::attrs(),

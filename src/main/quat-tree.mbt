@@ -54,34 +54,21 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   for branch in lines {
     let v = Vertex::{
-      position: Quaternion::new(
-        x=branch.from.x,
-        y=branch.from.y,
-        z=branch.from.z,
-        w=branch.from.w,
-      ).scale(scaled),
-      color: @caterfoil.Color::new(r=1.0, g=1.0),
+      position: branch.from.scale(scaled),
+      color: Color::new(r=1.0, g=1.0),
     }
     data.push(v)
     let v = Vertex::{
-      position: Quaternion::new(
-        x=branch.to.x,
-        y=branch.to.y,
-        z=branch.to.z,
-        w=branch.to.w,
-      ).scale(scaled),
-      color: @caterfoil.Color::new(r=1.0, g=1.0),
+      position: branch.to.scale(scaled),
+      color: Color::new(r=1.0, g=1.0),
     }
     data.push(v)
   }
   @caterfoil.object({
-    label: "fly-city",
+    label: "tree",
     shader: @caterfoil.lines_wgsl(),
     topology: LineList,
-    attrs_list: [
-      { field: "position", format: Float32x4 },
-      { field: "color", format: Float32x4 },
-    ],
+    attrs_list: Vertex::attrs(),
     data: WithPoints(data),
     indices: None,
     get_params: None,

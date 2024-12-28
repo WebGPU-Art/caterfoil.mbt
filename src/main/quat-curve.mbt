@@ -1,6 +1,6 @@
 ///|
 fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
-  let data = []
+  let data : Array[PolylineVertex] = []
   let points : Array[@quaternion.Quaternion] = []
   for i = 0; i < 100; i = i + 1 {
     // a spiral curve
@@ -21,16 +21,16 @@ fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     let direction = direction.scale(width)
     let pos = p0
     let pos_next = p1
-    let color = @caterfoil.Color::new(r=1.0)
-    data.push(PolylineVertex::{ position: pos, color, direction, side: 0 })
-    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 0 })
-    data.push(PolylineVertex::{ position: pos, color, direction, side: 1 })
-    data.push(PolylineVertex::{ position: pos, color, direction, side: 1 })
-    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 1 })
-    data.push(PolylineVertex::{ position: pos_next, color, direction, side: 0 })
+    let color = Color::new(r=1.0)
+    data.push({ position: pos, color, direction, side: 0 })
+    data.push({ position: pos_next, color, direction, side: 0 })
+    data.push({ position: pos, color, direction, side: 1 })
+    data.push({ position: pos, color, direction, side: 1 })
+    data.push({ position: pos_next, color, direction, side: 1 })
+    data.push({ position: pos_next, color, direction, side: 0 })
   }
   @caterfoil.object({
-    label: "triangle",
+    label: "curve",
     shader: @caterfoil.polyline_wgsl(),
     topology: TriangleList,
     attrs_list: PolylineVertex::attrs(),
