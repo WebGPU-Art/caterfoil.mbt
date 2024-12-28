@@ -53,24 +53,24 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
   let scaled = 20.0.to_float()
   let data = []
   for branch in lines {
-    let v = Vertex::{
-      position: Point4D::new(
+    let v = @caterfoil.Vertex::{
+      position: @caterfoil.Point4D::new(
         x=branch.from.x,
         y=branch.from.y,
         z=branch.from.z,
         w=branch.from.w,
       ).scale(scaled),
-      color: Color::new(r=1.0, g=1.0),
+      color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
-    let v = Vertex::{
-      position: Point4D::new(
+    let v = @caterfoil.Vertex::{
+      position: @caterfoil.Point4D::new(
         x=branch.to.x,
         y=branch.to.y,
         z=branch.to.z,
         w=branch.to.w,
       ).scale(scaled),
-      color: Color::new(r=1.0, g=1.0),
+      color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
   }

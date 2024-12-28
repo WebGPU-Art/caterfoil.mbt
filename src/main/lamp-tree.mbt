@@ -43,11 +43,14 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   )
   let data = []
   for point in lamp_tree {
-    let v = Vertex::{
-      position: Point4D::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
-        4.0,
-      ),
-      color: Color::new(r=1.0, g=1.0),
+    let v = @caterfoil.Vertex::{
+      position: @caterfoil.Point4D::new(
+        x=point.x,
+        y=point.y,
+        z=point.z,
+        w=point.w,
+      ).scale(4.0),
+      color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
   }
@@ -85,11 +88,14 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   )
   let data = []
   for point in fly_city {
-    let v = Vertex::{
-      position: Point4D::new(x=point.x, y=point.y, z=point.z, w=point.w).scale(
-        4.0,
-      ),
-      color: Color::new(r=1.0, g=1.0),
+    let v = @caterfoil.Vertex::{
+      position: @caterfoil.Point4D::new(
+        x=point.x,
+        y=point.y,
+        z=point.z,
+        w=point.w,
+      ).scale(4.0),
+      color: @caterfoil.Color::new(r=1.0, g=1.0),
     }
     data.push(v.to_value())
   }
