@@ -2,7 +2,7 @@
   "name": "tiye/caterfoil",
   "version": "0.1.0",
   "deps": {
-    "tiye/quaternion": "0.0.1"
+    "tiye/quaternion": "0.0.3"
   },
   "readme": "README.md",
   "repository": "",

@@ -234,3 +234,15 @@ test "Quaternion::op_div/basic" {
   )
   inspect!(result * b, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 }
+
+test "Quaternion::to_array/basic" {
+  let q = @lib.q(1.0, 2.0, 3.0, 4.0)
+  let result = q.to_array()
+  inspect!(result, content="[1, 2, 3, 4]")
+  let result2 = q.to_xyzw()
+  inspect!(result2, content="[2, 3, 4, 1]")
+  let q2 = @lib.from_xyzw_array?([2.0, 3.0, 4.0, 1.0]).unwrap()
+  inspect!(q2, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
+  let q3 = @lib.from_array?([1.0, 2.0, 3.0, 4.0]).unwrap()
+  inspect!(q3, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
+}

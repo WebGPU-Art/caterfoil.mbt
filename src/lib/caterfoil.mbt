@@ -117,39 +117,6 @@ pub fn group(children : Array[CaterfoilRenderObject]) -> CaterfoilRenderObject {
 }
 
 ///|
-pub(all) struct Point4D {
-  x : Float
-  y : Float
-  z : Float
-  w : Float
-}
-
-///|
-pub fn Point4D::new(x? : Float, y? : Float, z? : Float, w? : Float) -> Point4D {
-  Point4D::{
-    x: x.or_default(),
-    y: y.or_default(),
-    z: z.or_default(),
-    w: w.or_default(),
-  }
-}
-
-///|
-pub fn Point4D::scale(self : Point4D, t : Float) -> Point4D {
-  Point4D::{ x: self.x * t, y: self.y * t, z: self.z * t, w: self.w * t }
-}
-
-///|
-pub fn Point4D::to_array(self : Point4D) -> Array[Float] {
-  [self.x, self.y, self.z, self.w]
-}
-
-///|
-pub fn Point4D::from_quaternion(q : @quaternion.Quaternion) -> Point4D {
-  Point4D::new(x=q.x, y=q.y, z=q.z, w=q.w)
-}
-
-///|
 pub(all) struct Color {
   r : Float
   g : Float
@@ -169,7 +136,7 @@ pub fn Color::new(r? : Float, g? : Float, b? : Float, a? : Float) -> Color {
 
 ///|
 pub(all) struct Vertex {
-  position : Point4D
+  position : @quaternion.Quaternion
   color : Color
 }
 
@@ -198,9 +165,9 @@ pub fn Vertex::to_value(
 
 ///|
 pub(all) struct PolylineVertex {
-  position : Point4D
+  position : @quaternion.Quaternion
   color : Color
-  direction : Point4D
+  direction : @quaternion.Quaternion
   side : Int
 }
 
@@ -209,9 +176,9 @@ pub fn PolylineVertex::to_value(
   self : PolylineVertex
 ) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
   let dict : @moonbitlang/core/hashmap.T[String, Array[Float]] = @moonbitlang/core/hashmap.new()
-  dict["position"] = self.position.to_array()
+  dict["position"] = self.position.to_xyzw()
   dict["color"] = [self.color.r, self.color.g, self.color.b, self.color.a]
-  dict["direction"] = self.direction.to_array()
+  dict["direction"] = self.direction.to_xyzw()
   dict["side"] = [self.side.to_float()] // need int but JavaScript auto converts
   dict
 }

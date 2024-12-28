@@ -44,7 +44,7 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   for point in lamp_tree {
     let v = @caterfoil.Vertex::{
-      position: @caterfoil.Point4D::new(
+      position: @quaternion.Quaternion::new(
         x=point.x,
         y=point.y,
         z=point.z,
@@ -89,7 +89,7 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   for point in fly_city {
     let v = @caterfoil.Vertex::{
-      position: @caterfoil.Point4D::new(
+      position: @quaternion.Quaternion::new(
         x=point.x,
         y=point.y,
         z=point.z,

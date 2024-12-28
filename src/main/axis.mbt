@@ -3,35 +3,35 @@ fn comp_axis() -> @caterfoil.CaterfoilRenderObject {
   let data = []
   let vertex_list : Array[@caterfoil.Vertex] = [
     {
-      position: @caterfoil.Point4D::new(x=-100.0),
+      position: @quaternion.Quaternion::new(x=-100.0),
       color: @caterfoil.Color::new(r=0.5, g=0.5, b=0.5),
     },
     {
-      position: @caterfoil.Point4D::new(x=100.0),
+      position: @quaternion.Quaternion::new(x=100.0),
       color: @caterfoil.Color::new(r=0.5, g=0.5, b=0.5),
     },
     {
-      position: @caterfoil.Point4D::new(y=-100.0),
+      position: @quaternion.Quaternion::new(y=-100.0),
       color: @caterfoil.Color::new(r=0.5, g=0.5, b=0.5),
     },
     {
-      position: @caterfoil.Point4D::new(y=100.0),
+      position: @quaternion.Quaternion::new(y=100.0),
       color: @caterfoil.Color::new(g=1.0),
     },
     {
-      position: @caterfoil.Point4D::new(z=-100.0),
+      position: @quaternion.Quaternion::new(z=-100.0),
       color: @caterfoil.Color::new(g=1.0),
     },
     {
-      position: @caterfoil.Point4D::new(z=100.0),
+      position: @quaternion.Quaternion::new(z=100.0),
       color: @caterfoil.Color::new(r=1.0),
     },
     {
-      position: @caterfoil.Point4D::new(w=-100.0),
+      position: @quaternion.Quaternion::new(w=-100.0),
       color: @caterfoil.Color::new(r=1.0),
     },
     {
-      position: @caterfoil.Point4D::new(w=100.0),
+      position: @quaternion.Quaternion::new(w=100.0),
       color: @caterfoil.Color::new(r=1.0),
     },
   ]

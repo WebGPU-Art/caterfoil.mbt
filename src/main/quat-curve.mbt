@@ -18,9 +18,9 @@ fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     let length = (p1 - p0).length()
     let width = 2.0.to_float()
     let direction = (p1 - p0).scale(1.0.to_float() / length)
-    let direction = @caterfoil.Point4D::from_quaternion(direction.scale(width))
-    let pos = @caterfoil.Point4D::from_quaternion(p0)
-    let pos_next = @caterfoil.Point4D::from_quaternion(p1)
+    let direction = direction.scale(width)
+    let pos = p0
+    let pos_next = p1
     let color = @caterfoil.Color::new(r=1.0)
     data.push(
       @caterfoil.PolylineVertex::{ position: pos, color, direction, side: 0 }.to_value(),
