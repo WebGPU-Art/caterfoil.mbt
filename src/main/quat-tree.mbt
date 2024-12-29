@@ -36,8 +36,7 @@ fn generate_lines(
     transformers
     .iter()
     .flat_map(fn(info) {
-      let trans = info.line
-      return generate_lines(line_to, l0 * trans, level - 1)
+      return generate_lines(line_to, l0 * info.line, level - 1)
     })
   } else {
     [].iter()

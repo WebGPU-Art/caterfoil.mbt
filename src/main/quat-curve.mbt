@@ -8,7 +8,7 @@ pub fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     let x = t * 10.0
     let y = t * (@math.cos(t.to_double()) * 10.0).to_float()
     let z = t * (@math.sin(t.to_double()) * 10.0).to_float()
-    let w = t * 1.0
+    let w = 0.0.to_float()
     points.push({ x, y, z, w })
   }
   for i = 0; i < 99; i = i + 1 {
@@ -29,5 +29,9 @@ pub fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     data.push({ position: pos_next, color, direction, side: 1 })
     data.push({ position: pos_next, color, direction, side: 0 })
   }
-  @caterfoil.object(label="curve", data=WithTriangles(data))
+  @caterfoil.object(
+    label="curve",
+    data=WithTriangles(data),
+    topology=TriangleList,
+  )
 }

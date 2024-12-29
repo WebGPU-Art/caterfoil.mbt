@@ -55,7 +55,7 @@ fn loaded() -> Unit {
 
 ///|
 fn main {
-  @caterfoil.connect_retained_atom_to_srorage("caterfoil.mbt")
+  @caterfoil.connect_retained_atom_to_srorage("caterfoil.mbt", read=true)
   @caterfoil.window().set_onload(loaded)
 }
 
