@@ -28,7 +28,7 @@ fn fold_line4(
 }
 
 ///|
-fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
   let lamp_tree = fold_line4(
     // 14,
     10,
@@ -51,23 +51,15 @@ fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
     }
     data.push(v)
   }
-  @caterfoil.object({
-    label: "lamp-tree",
-    shader: @caterfoil.lines_wgsl(),
-    topology: LineStrip,
-    attrs_list: Vertex::attrs(),
-    data: WithPoints(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(
+    label="lamp-tree",
+    topology=LineStrip,
+    data=WithPoints(data),
+  )
 }
 
-// :fly-city $ fold-line4 9 ([] 0 0 0 0) ([] 200 0 0 0) ([] 0 20 0 25) ([] 5 20 10 25) ([] 5 20 10 15) ([] 0 20 0 15)
-//   q-inverse $ [] 0 0 0 50
-//   , 0.16
-
 ///|
-fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
   let fly_city = fold_line4(
     // 14,
     10,
@@ -88,13 +80,10 @@ fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
     }
     data.push(v)
   }
-  @caterfoil.object({
-    label: "lamp-tree",
-    shader: @caterfoil.lines_wgsl(),
-    topology: LineStrip,
-    attrs_list: Vertex::attrs(),
-    data: WithPoints(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(
+    label="lamp-tree",
+    shader=@caterfoil.lines_wgsl(),
+    topology=LineStrip,
+    data=WithPoints(data),
+  )
 }

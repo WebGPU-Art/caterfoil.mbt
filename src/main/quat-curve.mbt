@@ -1,5 +1,5 @@
 ///|
-fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
   let data : Array[PolylineVertex] = []
   let points : Array[@quaternion.Quaternion] = []
   for i = 0; i < 100; i = i + 1 {
@@ -29,13 +29,5 @@ fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
     data.push({ position: pos_next, color, direction, side: 1 })
     data.push({ position: pos_next, color, direction, side: 0 })
   }
-  @caterfoil.object({
-    label: "curve",
-    shader: @caterfoil.polyline_wgsl(),
-    topology: TriangleList,
-    attrs_list: PolylineVertex::attrs(),
-    data: WithTriangles(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(label="curve", data=WithTriangles(data))
 }

@@ -4,10 +4,10 @@
 struct Store {} derive(Default)
 
 ///|
-enum Action {}
+pub(all) enum Action {}
 
 ///|
-let store : @caterfoil.Atom[Store] = @caterfoil.Atom::with_value(
+pub let store : @caterfoil.Atom[Store] = @caterfoil.Atom::with_value(
   Store::default(),
 )
 

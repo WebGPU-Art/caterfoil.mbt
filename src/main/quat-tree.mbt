@@ -46,7 +46,7 @@ fn generate_lines(
 }
 
 ///|
-fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
   let p0 = @quaternion.q(0, 0, -15, 0)
   let l0 = @quaternion.q(0, 0, 20, 0)
   let lines = generate_lines(p0, l0, 8)
@@ -64,13 +64,5 @@ fn comp_quat_tree() -> @caterfoil.CaterfoilRenderObject {
     }
     data.push(v)
   }
-  @caterfoil.object({
-    label: "tree",
-    shader: @caterfoil.lines_wgsl(),
-    topology: LineList,
-    attrs_list: Vertex::attrs(),
-    data: WithPoints(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(label="tree", topology=LineList, data=WithPoints(data))
 }

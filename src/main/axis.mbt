@@ -22,13 +22,5 @@ fn comp_axis(
     @caterfoil.create_vertex_data!(axis_y, width=width.or(1)) +
     @caterfoil.create_vertex_data!(axis_z, width=width.or(1)) +
     @caterfoil.create_vertex_data!(axis_w, width=width.or(1))
-  @caterfoil.object({
-    label: "axis",
-    shader: @caterfoil.polyline_wgsl(),
-    topology: TriangleList,
-    attrs_list: @caterfoil.PolylineVertex::attrs(),
-    data: WithTriangles(triangles_list),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(label="axis", data=WithTriangles(triangles_list))
 }

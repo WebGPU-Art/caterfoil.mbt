@@ -74,7 +74,6 @@ pub(all) struct CaterfoilObjectOptions {
   label : String
   shader : String
   topology : ShaderPrimitiveTopology
-  attrs_list : Array[CaterfoilAttribute]
   data : ObjectData
   indices : Array[UInt]?
   get_params : (() -> Array[Float])?
@@ -87,7 +86,11 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
   obj.set("shader", JsValue::from_string(self.shader))
   obj.set("topology", JsValue::from_string(self.topology.to_string()))
   let attrs_list = JsArray::new()
-  for attr in self.attrs_list {
+  let attrs = match self.data {
+    WithPoints(_) => Vertex::attrs()
+    WithTriangles(_) => PolylineVertex::attrs()
+  }
+  for attr in attrs {
     attrs_list.push(attr.as_value())
   }
   obj.set("attrsList", attrs_list.as_value())
@@ -149,8 +152,33 @@ extern "js" fn CaterfoilRenderObject::as_value(
   #| (self) => self
 
 ///|
-pub fn object(options : CaterfoilObjectOptions) -> CaterfoilRenderObject {
-  caterfoil_object(options.as_value())
+pub fn object(
+  data~ : ObjectData,
+  /// by default, pick the shader based on the data type
+  shader? : String,
+  /// default to "object"
+  label? : String,
+  /// default to TriangleList
+  topology? : ShaderPrimitiveTopology,
+  /// default to None
+  get_params? : (() -> Array[Float])?,
+  /// default to None
+  indices? : Array[UInt]?
+) -> CaterfoilRenderObject {
+  let pick_shader = match data {
+    WithPoints(_) => lines_wgsl()
+    WithTriangles(_) => polyline_wgsl()
+  }
+  caterfoil_object(
+    CaterfoilObjectOptions::{
+      label: label.or("object"),
+      shader: shader.or(pick_shader),
+      topology: topology.or(TriangleList),
+      data,
+      indices: indices.or(None),
+      get_params: get_params.or(None),
+    }.as_value(),
+  )
 }
 
 ///|

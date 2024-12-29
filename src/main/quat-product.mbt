@@ -22,13 +22,5 @@ fn comp_quat_product() -> @caterfoil.CaterfoilRenderObject {
       }
     }
   }
-  @caterfoil.object({
-    label: "curve",
-    shader: @caterfoil.polyline_wgsl(),
-    topology: TriangleList,
-    attrs_list: PolylineVertex::attrs(),
-    data: WithTriangles(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(label="curve", data=WithTriangles(data))
 }

@@ -1,5 +1,6 @@
 ///|
-fn comp_hyper_cube() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
+pub fn comp_hyper_cube() ->
+     @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
   let unit = 80.0.to_float()
   let p1 = @quaternion.q(-unit, -unit, -unit, -unit)
   let p2 = @quaternion.q(unit, -unit, -unit, -unit)
@@ -148,13 +149,5 @@ fn comp_hyper_cube() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError
       { position: p8, color: white },
       { position: p18, color: white },
     ])
-  @caterfoil.object({
-    label: "axis",
-    shader: @caterfoil.polyline_wgsl(),
-    topology: TriangleList,
-    attrs_list: @caterfoil.PolylineVertex::attrs(),
-    data: WithTriangles(data),
-    indices: None,
-    get_params: None,
-  })
+  @caterfoil.object(label="hyper-cube", data=WithTriangles(data))
 }
