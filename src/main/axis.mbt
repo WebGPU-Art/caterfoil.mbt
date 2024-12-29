@@ -1,5 +1,7 @@
 ///|
-fn comp_axis() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
+fn comp_axis(
+  width? : Float
+) -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
   let axis_x : Array[@caterfoil.Vertex] = [
     { position: Quaternion::new(x=-20.0), color: Color::yellow(a=0.3) },
     { position: Quaternion::new(x=200.0), color: Color::yellow() },
@@ -16,10 +18,10 @@ fn comp_axis() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
     { position: Quaternion::new(w=-20.0), color: Color::blue_brigher(a=0.3) },
     { position: Quaternion::new(w=200.0), color: Color::blue_brigher() },
   ]
-  let triangles_list = @caterfoil.create_vertex_data!(axis_x, width=1) +
-    @caterfoil.create_vertex_data!(axis_y, width=1) +
-    @caterfoil.create_vertex_data!(axis_z, width=2) +
-    @caterfoil.create_vertex_data!(axis_w, width=2)
+  let triangles_list = @caterfoil.create_vertex_data!(axis_x, width=width.or(1)) +
+    @caterfoil.create_vertex_data!(axis_y, width=width.or(1)) +
+    @caterfoil.create_vertex_data!(axis_z, width=width.or(1)) +
+    @caterfoil.create_vertex_data!(axis_w, width=width.or(1))
   @caterfoil.object({
     label: "axis",
     shader: @caterfoil.polyline_wgsl(),

@@ -2,7 +2,7 @@
 fn comp_quat_product() -> @caterfoil.CaterfoilRenderObject {
   let mut data : Array[PolylineVertex] = []
   let size : Int = 2
-  let times : Int = 160
+  let times : Int = 200
   let multiplicand = @quaternion.new(w=1.0, x=0.08).normalize().scale(1.006)
   for i = 0; i < size; i = i + 1 {
     for j = 0; j < size; j = j + 1 {
