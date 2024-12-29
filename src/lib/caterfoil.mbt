@@ -38,8 +38,27 @@ pub extern "js" fn polyline_wgsl() -> String =
   #| () => Caterfoil.polylineWgsl
 
 ///| get viewer states saved in localStorage so that it can be restored
-pub extern "js" fn connect_retained_atom_to_srorage(name : String) -> Unit =
-  #| (name) => Caterfoil.connectRetainedAtomToStorage(name)
+pub fn connect_retained_atom_to_srorage(
+  name : String,
+  /// false to disable loading from localStorage
+  read? : Bool,
+  /// false to disable saving to localStorage
+  write? : Bool
+) -> Unit {
+  caterfoil_connect_retained_atom_to_srorage(
+    name,
+    read.or(true),
+    write.or(true),
+  )
+}
+
+///| get viewer states saved in localStorage so that it can be restored
+extern "js" fn caterfoil_connect_retained_atom_to_srorage(
+  name : String,
+  read : Bool,
+  write : Bool
+) -> Unit =
+  #| (name, read, write) => Caterfoil.connectRetainedAtomToStorage(name, {read, write})
 
 ///|
 pub(all) enum ObjectData {
