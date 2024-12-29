@@ -37,6 +37,10 @@ pub extern "js" fn lines_wgsl() -> String =
 pub extern "js" fn polyline_wgsl() -> String =
   #| () => Caterfoil.polylineWgsl
 
+///| get viewer states saved in localStorage so that it can be restored
+pub extern "js" fn connect_retained_atom_to_srorage(name : String) -> Unit =
+  #| (name) => Caterfoil.connectRetainedAtomToStorage(name)
+
 ///|
 pub(all) enum ObjectData {
   WithPoints(Array[Vertex])

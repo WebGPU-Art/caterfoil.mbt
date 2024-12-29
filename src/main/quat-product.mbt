@@ -9,7 +9,7 @@ fn comp_quat_product() -> @caterfoil.CaterfoilRenderObject {
       for k = 0; k < size; k = k + 1 {
         for l = 0; l < size; l = l + 1 {
           let mut p = @quaternion.qi(i, j, k, l).scale(2)
-          println("p: \{p}")
+          // println("p: \{p}")
           let trail : Array[Vertex] = []
           trail.push({ position: p.scale(20), color: Color::white(a=0.2) })
           for m = 0; m < times; m = m + 1 {
