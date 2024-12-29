@@ -4,10 +4,10 @@ pub fn comp_quat_curve() -> @caterfoil.CaterfoilRenderObject {
   let points : Array[@quaternion.Quaternion] = []
   for i = 0; i < 100; i = i + 1 {
     // a spiral curve
-    let t = i.to_float() / 10.0
-    let x = t * 10.0
-    let y = t * (@math.cos(t.to_double()) * 10.0).to_float()
-    let z = t * (@math.sin(t.to_double()) * 10.0).to_float()
+    let t = i.to_float() / 10.0 + 10
+    let x = t * 4.0
+    let y = t * (@math.cos(t.to_double()) * 4.0).to_float()
+    let z = t * (@math.sin(t.to_double()) * 4.0).to_float()
     let w = 0.0.to_float()
     points.push({ x, y, z, w })
   }

@@ -28,10 +28,9 @@ fn fold_line4(
 }
 
 ///|
-pub fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_lamp_tree(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
   let lamp_tree = fold_line4(
-    // 14,
-    10,
+    times.or(10),
     Quaternion::default(),
     Quaternion::new(y=100.0),
     Quaternion::new(y=20.0, w=22.0),
@@ -59,10 +58,9 @@ pub fn comp_lamp_tree() -> @caterfoil.CaterfoilRenderObject {
 }
 
 ///|
-pub fn comp_fly_city() -> @caterfoil.CaterfoilRenderObject {
+pub fn comp_fly_city(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
   let fly_city = fold_line4(
-    // 14,
-    10,
+    times.or(10),
     Quaternion::default(),
     Quaternion::new(x=200.0),
     Quaternion::new(y=20.0, w=25.0),
