@@ -74,12 +74,12 @@ pub fn comp_hyper_cube_grid() ->
   guard true else { raise @caterfoil.BuilderError("ok") }
   let unit = 20.0.to_float()
   let mut vertex_list : Array[Vertex] = []
-  for i = 0; i < 40; i = i + 1 {
+  for i = 0; i < 200; i = i + 1 {
     let offset = @quaternion.q(
-      random_around(0, 400),
-      random_around(0, 400),
-      random_around(0, 400),
-      random_around(0, 400),
+      random_around(0, 800),
+      random_around(0, 800),
+      random_around(0, 800),
+      random_around(0, 800),
     )
     let white = Color::new(
       r=@caterfoil.math_random(1),
@@ -93,7 +93,7 @@ pub fn comp_hyper_cube_grid() ->
   @caterfoil.object(
     label="hyper-cube-grid",
     topology=TriangleList,
-    shader=@caterfoil.lines_wgsl(),
+    shader=triangle_wgsl,
     data=WithPoints(vertex_list),
   )
 }

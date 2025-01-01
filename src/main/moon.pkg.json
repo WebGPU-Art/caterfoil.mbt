@@ -1,6 +1,12 @@
 {
   "is-main": true,
-  "pre-build": [],
+  "pre-build": [
+    {
+      "input": "shader/triangle.wgsl",
+      "output": "shader-triangle.mbt",
+      "command": ":embed -i $input -o $output --name triangle_wgsl"
+    }
+  ],
   "import": [
     {
       "path": "tiye/quaternion/lib",
