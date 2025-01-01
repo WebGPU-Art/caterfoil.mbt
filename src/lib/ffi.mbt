@@ -62,3 +62,7 @@ extern "js" fn caterfoil_group(children : JsArray) -> CaterfoilRenderObject =
 ///| log_js_value
 pub extern "js" fn log_js_value(value : JsValue) -> Unit =
   #| (value) => console.log(value)
+
+///|
+pub extern "js" fn math_random(n : Float) -> Float =
+  #| (n) => Math.random() * n
