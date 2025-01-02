@@ -17,8 +17,17 @@ fn dispatch() -> Unit {
 }
 
 ///|
+fn get_tab() -> Tab {
+  let location = @dom_ffi.window().location()
+  let params = @dom_ffi.new_url_search_params(location.search())
+  let tab = params.get("tab")
+  Tab::from_string(tab)
+}
+
+///|
 fn render_app() -> Unit!@caterfoil.BuilderError {
-  let tree = comp_container!()
+  let tab = get_tab()
+  let tree = comp_container!(tab)
   @caterfoil.render_caterfoil_tree(tree, dispatch)
   @caterfoil.paint_caterfoil_tree()
 }

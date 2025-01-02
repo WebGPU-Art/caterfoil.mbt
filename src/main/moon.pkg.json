@@ -16,6 +16,10 @@
       "path": "tiye/caterfoil/lib",
       "alias": "caterfoil",
       "value": []
+    },
+    {
+      "path": "tiye/dom-ffi/lib",
+      "alias": "dom_ffi"
     }
   ]
 }
