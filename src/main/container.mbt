@@ -7,11 +7,12 @@ enum Tab {
   LampTree
   QuatTree
   QuatProduct
+  PrimeWalk
 }
 
 ///|
 fn Tab::default() -> Tab {
-  HyperCubeGrid
+  PrimeWalk
 }
 
 ///|
@@ -24,6 +25,7 @@ fn Tab::from_string(s : String) -> Tab {
     "lamp-tree" => LampTree
     "quat-tree" => QuatTree
     "quat-product" => QuatProduct
+    "prime-walk" => PrimeWalk
     _ => {
       println("Unknown tab: " + s)
       Tab::default()
@@ -57,6 +59,7 @@ fn comp_container(
             .normalize()
             .scale(1.003),
         )
+      PrimeWalk => comp_prime_walk!()
     },
     if show_axis.or(true) {
       comp_axis!(width=4)
