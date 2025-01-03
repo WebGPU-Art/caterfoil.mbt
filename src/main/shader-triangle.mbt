@@ -90,7 +90,7 @@ let triangle_wgsl : String =
   #|  // output.position = position;
   #|  output.color = color;
   #|  if ret.r < -0.2 {
-  #|    output.color[3] = 0.;
+  #|    output.color.a = 0.;
   #|  }
   #|  return output;
   #|}

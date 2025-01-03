@@ -241,10 +241,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.6.tgz#628effeeae2064a1b4e79f78e81d87b7e5fc7b50"
   integrity sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==
 
-"@webgpu-art/caterfoil@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@webgpu-art/caterfoil/-/caterfoil-0.0.5.tgz#4ff2939b181f1125f6ad1de15392a53cfbcf9af9"
-  integrity sha512-1496hZ7XbPP/5NbNZODFqxP7ctYunfLp6SREGZpVJdB4OWhOMk0RwM9ZneBl3IYYy46xhcJAFMk8dISxeGoUXQ==
+"@webgpu-art/caterfoil@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@webgpu-art/caterfoil/-/caterfoil-0.0.6.tgz#b11f63a077ee53bfe1be3378a52257da0e274885"
+  integrity sha512-t+cdv/VmpxidkH/z5RI8mDoaGoe6rpK1/q5ALMzgJ5cwelbbPCZoyVc/2p2tTc8RqycJTuk5J5YOnLws0idf+g==
   dependencies:
     "@triadica/touch-control" "^0.0.4-a1"
     ismobilejs "^1.1.1"

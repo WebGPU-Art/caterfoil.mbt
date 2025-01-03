@@ -93,7 +93,6 @@ pub fn comp_hyper_cube_grid() ->
   @caterfoil.object(
     label="hyper-cube-grid",
     topology=TriangleList,
-    shader=triangle_wgsl,
     data=WithPoints(vertex_list),
   )
 }

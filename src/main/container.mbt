@@ -38,12 +38,11 @@ let none : @caterfoil.CaterfoilRenderObject = @caterfoil.group([])
 
 ///|
 fn comp_container(
-  tab : Tab,
-  show_axis? : Bool
+  params : SearchParams
 ) -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
   guard true else { raise @caterfoil.BuilderError("ok") }
   @caterfoil.group([
-    match tab {
+    match params.tab {
       QuatCurve => comp_quat_curve()
       HyperCube => comp_hyper_cube!()
       HyperCubeGrid => comp_hyper_cube_grid!()
@@ -61,7 +60,7 @@ fn comp_container(
         )
       PrimeWalk => comp_prime_walk!()
     },
-    if show_axis.or(true) {
+    if params.show_axis {
       comp_axis!(width=4)
     } else {
       none

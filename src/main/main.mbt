@@ -17,17 +17,34 @@ fn dispatch() -> Unit {
 }
 
 ///|
-fn get_tab() -> Tab {
+struct SearchParams {
+  tab : Tab
+  read : Bool
+  show_axis : Bool
+}
+
+///|
+fn read_params() -> SearchParams {
   let location = @dom_ffi.window().location()
   let params = @dom_ffi.new_url_search_params(location.search())
   let tab = params.get("tab")
-  Tab::from_string(tab)
+  let read = match params.get("read") {
+    "true" => true
+    "false" => false
+    _ => true
+  }
+  let show_axis = match params.get("axis") {
+    "true" => true
+    "false" => false
+    _ => true
+  }
+  { tab: Tab::from_string(tab), read, show_axis }
 }
 
 ///|
 fn render_app() -> Unit!@caterfoil.BuilderError {
-  let tab = get_tab()
-  let tree = comp_container!(tab)
+  let params = read_params()
+  let tree = comp_container!(params)
   @caterfoil.render_caterfoil_tree(tree, dispatch)
   @caterfoil.paint_caterfoil_tree()
 }
@@ -64,7 +81,10 @@ fn loaded() -> Unit {
 
 ///|
 fn main {
-  @caterfoil.connect_retained_atom_to_srorage("caterfoil.mbt", read=true)
+  @caterfoil.connect_retained_atom_to_srorage(
+    "caterfoil.mbt",
+    read=read_params().read,
+  )
   @caterfoil.window().set_onload(loaded)
 }
 
