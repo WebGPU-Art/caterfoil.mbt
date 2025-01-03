@@ -53,7 +53,7 @@ fn comp_container(
         comp_quat_product(
           mode=Grid,
           times=400,
-          width=1,
+          width=2,
           multiplicand=@quaternion.new(w=1, x=0.01, y=0.02, z=0.0)
             .normalize()
             .scale(1.003),
