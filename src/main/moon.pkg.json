@@ -1,4 +1,25 @@
 {
   "is-main": true,
-  "import": []
+  "pre-build": [
+    {
+      "input": "shader/triangle.wgsl",
+      "output": "shader-triangle.mbt",
+      "command": ":embed -i $input -o $output --name triangle_wgsl"
+    }
+  ],
+  "import": [
+    {
+      "path": "tiye/quaternion/lib",
+      "alias": "quaternion"
+    },
+    {
+      "path": "tiye/caterfoil/lib",
+      "alias": "caterfoil",
+      "value": []
+    },
+    {
+      "path": "tiye/dom-ffi/lib",
+      "alias": "dom_ffi"
+    }
+  ]
 }
