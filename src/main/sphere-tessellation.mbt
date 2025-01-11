@@ -96,5 +96,9 @@ pub fn comp_sphere_tessellation(
       data.push(v)
     }
   }
-  @caterfoil.object(label="lamp-tree", topology=LineList, data=WithPoints(data))
+  @caterfoil.object(
+    label="sphere-tessellation",
+    topology=LineList,
+    data=WithPoints(data),
+  )
 }

@@ -9,11 +9,12 @@ enum Tab {
   QuatProduct
   PrimeWalk
   SphereTessellation
+  CubeGrid
 }
 
 ///|
 fn Tab::default() -> Tab {
-  SphereTessellation
+  CubeGrid
 }
 
 ///|
@@ -28,6 +29,7 @@ fn Tab::from_string(s : String) -> Tab {
     "quat-product" => QuatProduct
     "prime-walk" => PrimeWalk
     "sphere-tess" => SphereTessellation
+    "cubic-grid" => CubeGrid
     _ => {
       println("Unknown tab: " + s)
       Tab::default()
@@ -62,6 +64,7 @@ fn comp_container(
         )
       PrimeWalk => comp_prime_walk!()
       SphereTessellation => comp_sphere_tessellation()
+      CubeGrid => comp_cubic_gird!(width=2)
     },
     if params.show_axis {
       comp_axis!(width=4)

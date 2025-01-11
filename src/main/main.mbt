@@ -50,33 +50,29 @@ fn render_app() -> Unit!@caterfoil.BuilderError {
 }
 
 ///|
-fn loaded() -> Unit {
-  let _ret = @caterfoil.initialize_context().then(fn(_ctx) {
-    @caterfoil.initialize_canvas_textures()
-    // atomClearColor.reset({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 });
-    let window = @caterfoil.window()
-    let document = window.document()
-    let canvas = document.query_selector("canvas")
-    render_app?().unwrap()
-    window.set_onresize(fn() {
-      @caterfoil.reset_canvas_size(canvas)
-      @caterfoil.initialize_canvas_textures()
-      @caterfoil.paint_caterfoil_tree()
-    })
+fn create_app() -> Unit {
+  @caterfoil.initialize_canvas_textures()
+  // atomClearColor.reset({ r: 0.0, g: 0.0, b: 0.0, a: 0.0 });
+  let window = @caterfoil.window()
+  let document = window.document()
+  let canvas = document.query_selector("canvas")
+  render_app?().unwrap()
+  window.set_onresize(fn() {
     @caterfoil.reset_canvas_size(canvas)
-
-    // window.__caterfoilHandleCompilationInfo = (e, code) => {
-    //   if (e.messages.length) {
-    //     console.error(e);
-    //   }
-    // };
-    // // setupMouseEvents(canvas);
-
-    @caterfoil.load_gamepad_control()
+    @caterfoil.initialize_canvas_textures()
     @caterfoil.paint_caterfoil_tree()
-    @caterfoil.js_undefined()
   })
+  @caterfoil.reset_canvas_size(canvas)
 
+  // window.__caterfoilHandleCompilationInfo = (e, code) => {
+  //   if (e.messages.length) {
+  //     console.error(e);
+  //   }
+  // };
+  // // setupMouseEvents(canvas);
+
+  @caterfoil.load_gamepad_control()
+  @caterfoil.paint_caterfoil_tree()
 }
 
 ///|
@@ -85,7 +81,11 @@ fn main {
     "caterfoil.mbt",
     read=read_params().read,
   )
-  @caterfoil.window().set_onload(loaded)
+  let _ret = @caterfoil.initialize_context().then(fn(_x) {
+    create_app()
+    @caterfoil.js_undefined()
+  })
+
 }
 
 // declare global {
