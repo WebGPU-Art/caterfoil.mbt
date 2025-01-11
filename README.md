@@ -16,6 +16,8 @@ URL params:
   - `quat-tree`
   - `quat-product`
   - `prime-walk`
+  - `sphere-tess`
+  - `cubic-array`
 
 - `read` to read from storage, options(defaults to `true`):
 
