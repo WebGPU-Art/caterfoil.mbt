@@ -25,8 +25,11 @@ URL params:
   - `false`
 
 - `axis` to draw axis, options(defaults to `true`):
+
   - `true`
   - `false`
+
+- `times` for expand times, only works on some demos, 0~10
 
 ### Development
 

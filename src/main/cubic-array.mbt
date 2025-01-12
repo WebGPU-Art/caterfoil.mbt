@@ -6,7 +6,7 @@ fn comp_cubic_array(
   // create lines of grid in 4 dimension, 4x4x4x4 cells, thus 5x5x5x5 lines
   let triangles_list : Array[@caterfoil.PolylineVertex] = []
   let unit : Float = 60.0
-  let size = 20
+  let size = 26
   let size_f = size.to_float()
   for ix = 0; ix <= size; ix = ix + 1 {
     for iy = 0; iy <= size; iy = iy + 1 {

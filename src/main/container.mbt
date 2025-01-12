@@ -63,7 +63,7 @@ fn comp_container(
             .scale(1.003),
         )
       PrimeWalk => comp_prime_walk!()
-      SphereTessellation => comp_sphere_tessellation()
+      SphereTessellation => comp_sphere_tessellation(times=params.times.or(5))
       CubicArray => comp_cubic_array!(width=2)
     },
     if params.show_axis {

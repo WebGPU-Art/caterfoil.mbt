@@ -3,7 +3,7 @@ fn comp_axis(
   width? : Float
 ) -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
   let short = 20.0.to_float()
-  let long = 400.0.to_float()
+  let long = 200.0.to_float()
   let axis_x : Array[@caterfoil.Vertex] = [
     { position: Quaternion::new(x=-short), color: Color::yellow(a=0.3) },
     { position: Quaternion::new(x=long), color: Color::yellow() },

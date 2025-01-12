@@ -24,6 +24,7 @@ struct SearchParams {
   tab : Tab
   read : Bool
   show_axis : Bool
+  times : Int?
 }
 
 ///|
@@ -41,7 +42,21 @@ fn read_params() -> SearchParams {
     "false" => false
     _ => true
   }
-  { tab: Tab::from_string(tab), read, show_axis }
+  let times = match params.get("times") {
+    "0" => Some(0)
+    "1" => Some(1)
+    "2" => Some(2)
+    "3" => Some(3)
+    "4" => Some(4)
+    "5" => Some(5)
+    "6" => Some(6)
+    "7" => Some(7)
+    "8" => Some(8)
+    "9" => Some(9)
+    "10" => Some(10)
+    _ => None
+  }
+  { tab: Tab::from_string(tab), read, show_axis, times }
 }
 
 ///|

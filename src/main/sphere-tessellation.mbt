@@ -78,7 +78,7 @@ pub fn comp_sphere_tessellation(
     Triangle::new(p4, p6, p7),
     Triangle::new(p4, p6, p8),
   ]
-  let times = times.or(5)
+  let times = times.or(6)
   for i = 0; i < times; i = i + 1 {
     let next_triangles : Array[Triangle] = []
     for triangle in triangles {
@@ -100,6 +100,7 @@ pub fn comp_sphere_tessellation(
     } else {
       Color::blue_brigher()
     }
+    // let color = Color::gray()
     let lines = triangle.lines_points()
     for point in lines {
       let v = Vertex::{ position: point.scale(80.0), color }
