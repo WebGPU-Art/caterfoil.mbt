@@ -29,7 +29,7 @@ fn Tab::from_string(s : String) -> Tab {
     "quat-product" => QuatProduct
     "prime-walk" => PrimeWalk
     "sphere-tess" => SphereTessellation
-    "cubic-grid" => CubicArray
+    "cubic-array" => CubicArray
     _ => {
       println("Unknown tab: " + s)
       Tab::default()

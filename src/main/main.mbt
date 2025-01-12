@@ -13,7 +13,10 @@ pub let store : @caterfoil.Atom[Store] = @caterfoil.Atom::with_value(
 
 ///|
 fn dispatch() -> Unit {
-  render_app?().unwrap()
+  match render_app?() {
+    Ok(_) => ()
+    Err(e) => println("\{e}")
+  }
 }
 
 ///|

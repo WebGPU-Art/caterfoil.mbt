@@ -58,7 +58,7 @@ pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
 }
 
 ///|
-pub(all) type! BuilderError String
+pub(all) type! BuilderError String derive(Show)
 
 ///| turn a chunk of vertices into triangles data
 pub fn create_vertex_data(
