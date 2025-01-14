@@ -31,6 +31,16 @@ URL params:
 
 - `times` for expand times, only works on some demos, 0~10
 
+### Gamepad Controls
+
+Control between XYZ:
+
+![Gamepad Default](./assets/caterfoil-default.png)
+
+Hold `△` to enable control between XYW:
+
+![Gamepad W](./assets/caterfoil-W.png)
+
 ### Development
 
 Watch build MoonBit:
