@@ -58,13 +58,13 @@ fn comp_container(
           mode=Grid,
           times=400,
           width=2,
-          multiplicand=@quaternion.new(w=1, x=0.01, y=0.02, z=0.0)
-            .normalize()
-            .scale(1.003),
+          multiplicand=@quaternion.Quaternion::new(w=1, x=0.01, y=0.02, z=0.0)
+            ..normalize_mut()
+            ..scale_mut(1.003),
         )
       PrimeWalk => comp_prime_walk!()
       SphereTessellation => comp_sphere_tessellation(times=params.times.or(5))
-      CubicArray => comp_cubic_array!(width=2)
+      CubicArray => comp_cubic_array!(width=1)
     },
     if params.show_axis {
       comp_axis!(width=4)

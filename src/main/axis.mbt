@@ -1,4 +1,33 @@
 ///|
+/// Creates a visual representation of the 4D coordinate system axes, with each
+/// axis having a different color and extending in both positive and negative
+/// directions. The negative parts of the axes are rendered with more
+/// transparency.
+///
+/// Parameters:
+///
+/// * `width` : Optional line width for the axes. If not specified, defaults to
+/// 1.0.
+///
+/// Returns a `CaterfoilRenderObject` that can be used for rendering the
+/// coordinate axes. The axes are colored as follows:
+///
+/// * X-axis: yellow
+/// * Y-axis: orange
+/// * Z-axis: gray
+/// * W-axis: bright blue
+///
+/// Throws a `BuilderError` if there's an error during the creation of the render
+/// object.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "comp_axis" {
+///   let axes = comp_axis!(width=2.0)
+///   inspect!(axes.label, content="\"axis\"")
+/// }
+/// ```
 fn comp_axis(
   width? : Float
 ) -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {

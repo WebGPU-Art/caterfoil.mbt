@@ -24,6 +24,46 @@ fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String 
 }
 
 ///|
+/// Represents the format of vertex attributes in WebGPU shaders. Each variant
+/// describes the data type, size, and normalization of vertex data.
+///
+/// The format strings follow the WebGPU specification naming convention:
+///
+/// * First part indicates the data type (`uint`, `sint`, `float`) and bit width
+/// (8, 16, 32)
+/// * Second part (if present) indicates the number of components (x2, x3, x4)
+/// * Prefix `unorm` or `snorm` indicates normalized integer formats
+/// * Special case `unorm10_10_10_2` for packed 32-bit format with normalized
+/// components
+///
+/// Parameters:
+///
+/// * `Uint8x2`, `Uint8x4`: Two or four unsigned 8-bit integers
+/// * `Sint8x2`, `Sint8x4`: Two or four signed 8-bit integers
+/// * `Unorm8x2`, `Unorm8x4`: Two or four normalized unsigned 8-bit integers
+/// * `Snorm8x2`, `Snorm8x4`: Two or four normalized signed 8-bit integers
+/// * `Uint16x2`, `Uint16x4`: Two or four unsigned 16-bit integers
+/// * `Sint16x2`, `Sint16x4`: Two or four signed 16-bit integers
+/// * `Unorm16x2`, `Unorm16x4`: Two or four normalized unsigned 16-bit integers
+/// * `Snorm16x2`, `Snorm16x4`: Two or four normalized signed 16-bit integers
+/// * `Float16x2`, `Float16x4`: Two or four 16-bit floating point numbers
+/// * `Float32`, `Float32x2`, `Float32x3`, `Float32x4`: One to four 32-bit
+/// floating point numbers
+/// * `Uint32`, `Uint32x2`, `Uint32x3`, `Uint32x4`: One to four unsigned 32-bit
+/// integers
+/// * `Sint32`, `Sint32x2`, `Sint32x3`, `Sint32x4`: One to four signed 32-bit
+/// integers
+/// * `Unorm10_10_10_2`: Packed format with three 10-bit normalized unsigned
+/// integers and one 2-bit normalized unsigned integer
+///
+/// Example:
+///
+/// ```moonbit
+/// test "GPUVertexFormat" {
+///   let format = GPUVertexFormat::Float32x4
+///   inspect!(format.to_string(), content="\"float32x4\"")
+/// }
+/// ```
 pub(all) enum GPUVertexFormat {
   Uint8x2
   Uint8x4
