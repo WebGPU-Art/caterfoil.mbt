@@ -1,5 +1,5 @@
 ///|
-pub(all) enum DemoMode {
+enum DemoMode {
   Single
   Grid
 }
@@ -13,7 +13,7 @@ pub fn comp_quat_product(
 ) -> @caterfoil.CaterfoilRenderObject {
   let mut data : Array[PolylineVertex] = []
   let multiplicand = multiplicand.or(
-    @quaternion.new(w=1.0, x=0.08).normalize().scale(1.006),
+    @quaternion.Quaternion::new(w=1.0, x=0.08).normalize().scale(1.006),
   )
   fn iterate(p0 : Quaternion, times : Int) -> Unit {
     let mut p = p0

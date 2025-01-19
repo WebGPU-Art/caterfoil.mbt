@@ -7,8 +7,8 @@ console.log("Caterfoil loaded", Caterfoil);
 // load js code which Vite does not detect
 import("../target/js/debug/build/main/main.js")
   .then((module) => {
-    console.log("Main loaded", module);
+    console.log("mbt app loaded", module);
   })
   .catch((error) => {
-    console.error("Main error", error);
+    console.error("mbt app loading error", error);
   });

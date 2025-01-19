@@ -1,4 +1,4 @@
-///|
+///| a very naive ffi implementation for JS Promise
 type Promise
 
 ///|

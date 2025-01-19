@@ -28,6 +28,32 @@ pub fn Vertex::to_value(
 }
 
 ///|
+/// Represents a vertex in a polyline with position, color, direction, and side
+/// information. Used for rendering thick lines with proper width and direction.
+///
+/// Fields:
+///
+/// * `position` : The position of the vertex in 3D space represented as a
+/// quaternion.
+/// * `color` : The color of the vertex.
+/// * `direction` : The direction vector of the line segment at this vertex,
+/// represented as a quaternion.
+/// * `side` : An integer flag indicating which side of the line this vertex
+/// represents (0 for left side, 1 for right side).
+///
+/// Example:
+///
+/// ```moonbit
+/// test "PolylineVertex" {
+///   let vertex = PolylineVertex::{
+///     position: @quaternion.new(1.0, 0.0, 0.0, 1.0),
+///     color: Color::red(),
+///     direction: @quaternion.new(0.0, 1.0, 0.0, 0.0),
+///     side: 0,
+///   }
+///   inspect!(vertex.side, content="0")
+/// }
+/// ```
 pub(all) struct PolylineVertex {
   position : @quaternion.Quaternion
   color : Color
@@ -36,6 +62,39 @@ pub(all) struct PolylineVertex {
 }
 
 ///|
+/// Converts a `PolylineVertex` instance into a hashmap representation suitable
+/// for WebGPU vertex buffer data. The resulting hashmap contains the vertex's
+/// position, color, direction, and side information as arrays of floating-point
+/// numbers.
+///
+/// Parameters:
+///
+/// * `self` : The `PolylineVertex` instance to convert.
+///
+/// Returns a hashmap with the following key-value pairs:
+///
+/// * `"position"` : Array of 4 floats representing the vertex position as XYZW
+/// coordinates
+/// * `"color"` : Array of 4 floats representing RGBA color components
+/// * `"direction"` : Array of 4 floats representing the direction vector as XYZW
+/// coordinates
+/// * `"side"` : Single-element array containing the side flag as a float
+///
+/// Example:
+///
+/// ```moonbit
+/// test "PolylineVertex::to_value" {
+///   let vertex = PolylineVertex::{
+///     position: @quaternion.new(1.0, 0.0, 0.0, 1.0),
+///     color: Color::red(),
+///     direction: @quaternion.new(0.0, 1.0, 0.0, 0.0),
+///     side: 0,
+///   }
+///   let dict = vertex.to_value()
+///   inspect!(dict["position"], content="[1.0, 0.0, 0.0, 1.0]")
+///   inspect!(dict["color"], content="[1.0, 0.0, 0.0, 1.0]")
+/// }
+/// ```
 pub fn PolylineVertex::to_value(
   self : PolylineVertex
 ) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
@@ -48,6 +107,29 @@ pub fn PolylineVertex::to_value(
 }
 
 ///|
+/// Returns an array of vertex attributes required for rendering a polyline
+/// vertex in WebGPU.
+///
+/// Returns an array of `CaterfoilAttribute` containing the following vertex
+/// attributes:
+///
+/// * `position`: A 4D float vector (x, y, z, w) representing the vertex position
+/// * `color`: A 4D float vector (r, g, b, a) representing the vertex color
+/// * `direction`: A 4D float vector representing the direction of the line
+/// segment
+/// * `side`: A 32-bit signed integer indicating which side of the line this
+/// vertex represents (0 for left, 1 for right)
+///
+/// Example:
+///
+/// ```moonbit
+/// test "PolylineVertex::attrs" {
+///   let attrs = PolylineVertex::attrs()
+///   inspect!(attrs.length(), content="4")
+///   inspect!(attrs[0].field, content="\"position\"")
+///   inspect!(attrs[0].format, content="Float32x4")
+/// }
+/// ```
 pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
   [
     { field: "position", format: Float32x4 },
@@ -58,7 +140,19 @@ pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
 }
 
 ///|
-pub(all) type! BuilderError String
+/// Represents an error that can occur during vertex data building process.
+///
+/// Returns a new error type that wraps a string message.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "BuilderError" {
+///   let err = BuilderError("chunk size must be at least 2")
+///   inspect!(err, content="BuilderError(\"chunk size must be at least 2\")")
+/// }
+/// ```
+pub(all) type! BuilderError String derive(Show)
 
 ///| turn a chunk of vertices into triangles data
 pub fn create_vertex_data(
