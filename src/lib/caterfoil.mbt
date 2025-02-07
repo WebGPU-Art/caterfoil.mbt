@@ -3,6 +3,8 @@ pub extern "js" fn initialize_context() -> Promise =
   #| () => Caterfoil.initializeContext()
 
 ///|
+/// Triggers a redraw of the current Caterfoil render tree. Updates the WebGPU
+/// canvas with the latest state of all render objects in the scene graph.
 pub extern "js" fn paint_caterfoil_tree() -> Unit =
   #| () => Caterfoil.paintCaterfoilTree()
 
@@ -14,10 +16,19 @@ pub extern "js" fn render_caterfoil_tree(
   #| (el, dispatch) => Caterfoil.renderCaterfoilTree(el, dispatch)
 
 ///|
+/// Adjusts the canvas size to match its display size, ensuring proper rendering
+/// and preventing scaling artifacts.
+///
+/// Parameters:
+///
+/// * `canvas` : The HTML canvas element to be resized. Must be a valid DOM
+/// Element object obtained through methods like `Document::query_selector`.
 pub extern "js" fn reset_canvas_size(canvas : Element) -> Unit =
   #| (canvas) => Caterfoil.resetCanvasSize(canvas)
 
 ///|
+/// Initializes textures required for WebGPU rendering on the canvas. Sets up
+/// necessary texture configurations and bindings for the rendering pipeline.
 pub extern "js" fn initialize_canvas_textures() -> Unit =
   #| () => Caterfoil.initializeCanvasTextures()
 
@@ -26,6 +37,10 @@ pub extern "js" fn setup_mouse_events() -> Unit =
   #| () => Caterfoil.setupMouseEvents()
 
 ///|
+/// Sets up gamepad input handling for WebGPU rendering. Initializes event
+/// listeners and state management for gamepad connections, button presses, and
+/// axis movements. Enables real-time input detection from connected gamepads to
+/// control the WebGPU rendering viewport and scene.
 pub extern "js" fn load_gamepad_control() -> Unit =
   #| () => Caterfoil.loadGamepadControl()
 
@@ -34,10 +49,38 @@ pub extern "js" fn lines_wgsl() -> String =
   #| () => Caterfoil.triangleWgsl
 
 ///|
+/// Returns the WebGPU Shader Language (WGSL) code used for rendering polylines
+/// in Caterfoil. The shader includes vertex and fragment stages necessary for
+/// drawing thick lines with proper width and direction handling.
+///
+/// Returns a string containing the WGSL shader code for polyline rendering.
 pub extern "js" fn polyline_wgsl() -> String =
   #| () => Caterfoil.polylineWgsl
 
-///| get viewer states saved in localStorage so that it can be restored
+///|
+/// Connects a retained atom to browser's localStorage for persistent state
+/// management. The connection can be configured to enable/disable reading from
+/// or writing to localStorage.
+///
+/// Parameters:
+///
+/// * `name` : A unique identifier string for the retained atom. This name is
+/// used as the key in localStorage.
+/// * `read` : Optional boolean flag to control loading from localStorage.
+/// Defaults to `true`. When set to `false`, disables loading stored values.
+/// * `write` : Optional boolean flag to control saving to localStorage. Defaults
+/// to `true`. When set to `false`, disables saving values.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "connect_retained_atom_to_srorage" {
+///   // Connect an atom named "viewer-state" with both read and write enabled
+///   connect_retained_atom_to_srorage("viewer-state")
+///   // Connect an atom that only reads from storage
+///   connect_retained_atom_to_srorage("read-only-state", write=false)
+/// }
+/// ```
 pub fn connect_retained_atom_to_srorage(
   name : String,
   /// false to disable loading from localStorage
@@ -61,6 +104,39 @@ extern "js" fn caterfoil_connect_retained_atom_to_srorage(
   #| (name, read, write) => Caterfoil.connectRetainedAtomToStorage(name, {read, write})
 
 ///|
+/// Represents the vertex data used in Caterfoil rendering objects. Provides two
+/// variants for different rendering approaches:
+/// basic vertices for simple shapes and polyline vertices for thick lines with
+/// proper width handling.
+///
+/// Parameters:
+///
+/// For `WithPoints`:
+///
+/// * `vertices` : An array of basic vertices, each containing position and color
+/// information.
+///
+/// For `WithTriangles`:
+///
+/// * `vertices` : An array of polyline vertices, each containing position,
+/// color, direction, and side information for thick line rendering.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "ObjectData" {
+///   let points = ObjectData::WithPoints([
+///     Vertex::{
+///       position: @quaternion.new(0.0, 0.0, 0.0, 1.0),
+///       color: Color::red(),
+///     },
+///   ])
+///   match points {
+///     WithPoints(vertices) => inspect!(vertices.length(), content="1")
+///     WithTriangles(_) => inspect!(false, content="true")
+///   }
+/// }
+/// ```
 pub(all) enum ObjectData {
   WithPoints(Array[Vertex])
   WithTriangles(Array[PolylineVertex])
@@ -89,6 +165,41 @@ fn ObjectData::to_data(
 }
 
 ///|
+/// Represents configuration options for creating a WebGPU render object in
+/// Caterfoil. Contains essential information about the rendering pipeline,
+/// including shader configuration, vertex data, and rendering topology.
+///
+/// Fields:
+///
+/// * `label` : A string identifier for the render object, useful for debugging
+/// purposes.
+/// * `shader` : The WebGPU shader code as a string, defining how vertices should
+/// be processed and rendered.
+/// * `topology` : The primitive topology type that determines how vertices are
+/// interpreted (e.g., point list, line list, triangle list).
+/// * `data` : The vertex data to be rendered, can be either basic vertices or
+/// polyline vertices with additional attributes.
+/// * `indices` : Optional array of unsigned integers specifying the vertex
+/// indices for indexed rendering.
+/// * `get_params` : Optional callback function that returns an array of
+/// floating-point values used as shader parameters.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "CaterfoilObjectOptions" {
+///   let options = CaterfoilObjectOptions::{
+///     label: "triangle",
+///     shader: @caterfoil.lines_wgsl(),
+///     topology: ShaderPrimitiveTopology::TriangleList,
+///     data: ObjectData::WithPoints([]),
+///     indices: None,
+///     get_params: None,
+///   }
+///   inspect!(options.label, content="\"triangle\"")
+///   inspect!(options.topology, content="TriangleList")
+/// }
+/// ```
 pub(all) struct CaterfoilObjectOptions {
   label : String
   shader : String
@@ -164,13 +275,50 @@ fn CaterfoilAttribute::as_value(self : CaterfoilAttribute) -> JsValue {
 ///|
 type CaterfoilRenderObject
 
-///|
+///| Creates a new Caterfoil render object with the specified configuration
 extern "js" fn CaterfoilRenderObject::as_value(
   self : CaterfoilRenderObject
 ) -> JsValue =
   #| (self) => self
 
 ///|
+/// Creates a new WebGPU render object in the Caterfoil rendering system with
+/// specified vertex data and rendering configuration.
+///
+/// Parameters:
+///
+/// * `data` : The vertex data to be rendered. Can be either basic vertices
+/// (`WithPoints`) or polyline vertices (`WithTriangles`) with additional
+/// attributes for thick line rendering.
+/// * `shader` : Optional WebGPU shader code as a string. If not provided,
+/// automatically selects an appropriate shader based on the vertex data type
+/// (`lines_wgsl` for `WithPoints`, `polyline_wgsl` for `WithTriangles`).
+/// * `label` : Optional string identifier for the render object, useful for
+/// debugging. Defaults to "object".
+/// * `topology` : Optional primitive topology type that determines how vertices
+/// are interpreted (e.g., point list, line list). Defaults to `TriangleList`.
+/// * `get_params` : Optional callback function that returns an array of
+/// floating-point values used as shader parameters.
+/// * `indices` : Optional array of unsigned integers specifying the vertex
+/// indices for indexed rendering.
+///
+/// Returns a new `CaterfoilRenderObject` that can be used in the Caterfoil
+/// rendering system.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "object/basic" {
+///   let vertices = [
+///     Vertex::{
+///       position: @quaternion.new(0.0, 0.0, 0.0, 1.0),
+///       color: Color::red(),
+///     },
+///   ]
+///   let triangle = object(data=ObjectData::WithPoints(vertices))
+///   inspect!(triangle, content="[object Object]")
+/// }
+/// ```
 pub fn object(
   data~ : ObjectData,
   /// by default, pick the shader based on the data type
@@ -201,6 +349,28 @@ pub fn object(
 }
 
 ///|
+/// Creates a group of render objects in the Caterfoil rendering system, allowing
+/// multiple render objects to be combined and managed as a single unit.
+///
+/// Parameters:
+///
+/// * `children` : An array of `CaterfoilRenderObject`s that will be grouped
+/// together. These objects can be created using functions like `object()` or
+/// other `group()` calls.
+///
+/// Returns a new `CaterfoilRenderObject` that represents the group of render
+/// objects.
+///
+/// Example:
+///
+/// ```moonbit
+/// test "group" {
+///   let triangle = @caterfoil.object(data=ObjectData::WithPoints([]))
+///   let circle = @caterfoil.object(data=ObjectData::WithPoints([]))
+///   let scene = @caterfoil.group([triangle, circle])
+///   inspect!(scene, content="[object Object]")
+/// }
+/// ```
 pub fn group(children : Array[CaterfoilRenderObject]) -> CaterfoilRenderObject {
   let arr = JsArray::new()
   for child in children {

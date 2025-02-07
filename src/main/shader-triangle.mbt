@@ -30,7 +30,7 @@ let triangle_wgsl : String =
   #|
   #|struct PointResult {
   #|  point_position: vec3f,
-  #|  r: f32,
+  #|  distanceRatio: f32,
   #|  s: f32,
   #|};
   #|
@@ -52,21 +52,21 @@ let triangle_wgsl : String =
   #|  /// it is tricky since we don't know the real sight in 4D space
   #|  let look_direction = (forward + w_direction) / sqrt2;
   #|
-  #|  let r: f32 = ga4_vec4f_inner(moved_point, look_direction) / look_distance;
+  #|  let distanceRatio: f32 = ga4_vec4f_inner(moved_point, look_direction) / look_distance;
   #|
   #|  // if dz < (s * -0.9) || dw < (s * -0.9) {
   #|  //   // make it disappear with depth test since it's probably behind the camera
   #|  //   return PointResult(vec3(0.0, 0.0, 10000.), r, s);
   #|  // }
   #|
-  #|  let screen_scale: f32 = (s + 1.0) / (r + s);
+  #|  let screen_scale: f32 = (s + 1.0) / (distanceRatio + s);
   #|  let y_next: f32 = ga4_vec4f_inner(moved_point, upward) * screen_scale;
   #|  let x_next: f32 = ga4_vec4f_inner(moved_point, rightward) * screen_scale;
-  #|  let z_next: f32 = r + 0.4; // negtive value is behind the camera and will be clipped
+  #|  let z_next: f32 = distanceRatio + 0.4; // negtive value is behind the camera and will be clipped
   #|
   #|  return PointResult(
   #|    vec3(x_next, y_next / uniforms.viewport_ratio, z_next) * uniforms.scale,
-  #|    r, s
+  #|    distanceRatio, s
   #|  );
   #|}
   #|
@@ -86,10 +86,10 @@ let triangle_wgsl : String =
   #|  let ret = transform_perspective(position);
   #|  let p = ret.point_position;
   #|  let scale: f32 = 0.002;
-  #|  output.position = vec4(p[0] * scale, p[1] * scale, p[2] * scale, 1.0);
+  #|  output.position = vec4(p.xyz * scale, 1.0);
   #|  // output.position = position;
   #|  output.color = color;
-  #|  if ret.r < -0.2 {
+  #|  if ret.distanceRatio < -0.2 {
   #|    output.color.a = 0.;
   #|  }
   #|  return output;

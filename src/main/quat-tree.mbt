@@ -44,8 +44,9 @@ fn generate_lines(
   return ([{ from: base, to: line_to }].iter() + next.iter()).iter()
 }
 
+
 ///|
-pub fn comp_quat_tree(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
+fn comp_quat_tree(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
   let p0 = @quaternion.q(0, 0, -15, 0)
   let l0 = @quaternion.q(0, 0, 20, 0)
   let lines = generate_lines(p0, l0, times.or(8))

@@ -78,7 +78,7 @@ pub fn comp_sphere_tessellation(
     Triangle::new(p4, p6, p7),
     Triangle::new(p4, p6, p8),
   ]
-  let times = times.or(5)
+  let times = times.or(6)
   for i = 0; i < times; i = i + 1 {
     let next_triangles : Array[Triangle] = []
     for triangle in triangles {
@@ -89,12 +89,27 @@ pub fn comp_sphere_tessellation(
     triangles = next_triangles
   }
   let data = []
-  for triangle in triangles {
+  for idx, triangle in triangles.iter2() {
+    let at = idx.to_float() / triangles.length().to_float()
+    let color = if at < 0.25 {
+      Color::orange()
+    } else if at < 0.5 {
+      Color::green()
+    } else if at < 0.75 {
+      Color::gray()
+    } else {
+      Color::blue_brigher()
+    }
+    // let color = Color::gray()
     let lines = triangle.lines_points()
     for point in lines {
-      let v = Vertex::{ position: point.scale(80.0), color: Color::new(r=1.0) }
+      let v = Vertex::{ position: point.scale(80.0), color }
       data.push(v)
     }
   }
-  @caterfoil.object(label="lamp-tree", topology=LineList, data=WithPoints(data))
+  @caterfoil.object(
+    label="sphere-tessellation",
+    topology=LineList,
+    data=WithPoints(data),
+  )
 }
