@@ -53,15 +53,20 @@ fn comp_container(
       FlyCity => comp_fly_city(times=10)
       LampTree => comp_lamp_tree(times=10)
       QuatTree => comp_quat_tree(times=7)
-      QuatProduct =>
-        comp_quat_product(
-          mode=Grid,
-          times=400,
-          width=2,
-          multiplicand=@quaternion.Quaternion::new(w=1, x=0.01, y=0.02, z=0.0)
-            ..normalize_mut()
-            ..scale_mut(1.003),
+      QuatProduct => {
+        let multiplicand = @quaternion.Quaternion::new(
+          w=1,
+          x=0.01,
+          y=0.02,
+          z=0.0,
         )
+        multiplicand.normalize_mut() catch {
+          @quaternion.QuatError(message) =>
+            raise @caterfoil.BuilderError(message)
+        }
+        multiplicand.scale_mut(1.003)
+        comp_quat_product(mode=Grid, times=400, width=2, multiplicand~)
+      }
       PrimeWalk => comp_prime_walk()
       SphereTessellation =>
         comp_sphere_tessellation(times=params.times.unwrap_or(5))

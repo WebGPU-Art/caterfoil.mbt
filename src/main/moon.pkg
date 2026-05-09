@@ -2,7 +2,7 @@ import {
   "moonbitlang/core/math" @math,
   "tiye/quaternion/lib" @quaternion,
   "tiye/caterfoil/lib" @caterfoil,
-  "tiye/dom-ffi/lib" @dom_ffi,
+  "tiye/dom-ffi" @dom_ffi,
 }
 
 options(
