@@ -27,7 +27,8 @@ pub fn comp_quat_product(
       p = p.op_mul(multiplicand)
       trail.push({ position: p.scale(20), color: Color::white(a=0.4) })
     }
-    data = data + @caterfoil.create_vertex_data(trail, width=width.unwrap_or(0.6))
+    data = data +
+      @caterfoil.create_vertex_data(trail, width=width.unwrap_or(0.6))
   }
 
   match mode.unwrap_or(Single) {

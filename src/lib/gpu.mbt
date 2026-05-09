@@ -8,11 +8,6 @@ pub(all) enum ShaderPrimitiveTopology {
 }
 
 ///|
-fn ShaderPrimitiveTopology::default() -> ShaderPrimitiveTopology {
-  LineList
-}
-
-///|
 fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String {
   match self {
     PointList => "point-list"

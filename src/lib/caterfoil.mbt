@@ -91,8 +91,8 @@ pub fn connect_retained_atom_to_srorage(
 ) -> Unit {
   caterfoil_connect_retained_atom_to_srorage(
     name,
-    read.or(true),
-    write.or(true),
+    read.unwrap_or(true),
+    write.unwrap_or(true),
   )
 }
 
@@ -147,7 +147,7 @@ pub(all) enum ObjectData {
 ///|
 fn ObjectData::to_data(
   self : ObjectData,
-) -> Array[@hashmap.T[String, Array[Float]]] {
+) -> Array[@hashmap.HashMap[String, Array[Float]]] {
   match self {
     ObjectData::WithPoints(data) => {
       let ret = []
@@ -342,12 +342,12 @@ pub fn object(
   }
   caterfoil_object(
     CaterfoilObjectOptions::{
-      label: label.or("object"),
-      shader: shader.or(pick_shader),
-      topology: topology.or(TriangleList),
+      label: label.unwrap_or("object"),
+      shader: shader.unwrap_or(pick_shader),
+      topology: topology.unwrap_or(TriangleList),
       data,
-      indices: indices.or(None),
-      get_params: get_params.or(None),
+      indices: indices.unwrap_or(None),
+      get_params: get_params.unwrap_or(None),
     }.as_value(),
   )
 }

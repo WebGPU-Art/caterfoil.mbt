@@ -49,7 +49,10 @@ fn comp_axis(
     { position: Quaternion::new(w=-short), color: Color::blue_brigher(a=0.3) },
     { position: Quaternion::new(w=long), color: Color::blue_brigher() },
   ]
-  let triangles_list = @caterfoil.create_vertex_data(axis_x, width=width.unwrap_or(1.0)) +
+  let triangles_list = @caterfoil.create_vertex_data(
+      axis_x,
+      width=width.unwrap_or(1.0),
+    ) +
     @caterfoil.create_vertex_data(axis_y, width=width.unwrap_or(1.0)) +
     @caterfoil.create_vertex_data(axis_z, width=width.unwrap_or(1.0)) +
     @caterfoil.create_vertex_data(axis_w, width=width.unwrap_or(1.0))

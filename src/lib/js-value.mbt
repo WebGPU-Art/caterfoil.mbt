@@ -52,11 +52,9 @@ extern "js" fn JsValue::from_fn(value : () -> JsValue) -> JsValue =
 
 ///|
 /// unsafe
-extern "js" fn JsValue::to_fn(self : JsValue) -> () -> JsValue =
-  #| (self) => self
 
 ///|
-type JsObject
+priv type JsObject
 
 ///|
 extern "js" fn JsObject::new() -> JsObject =
@@ -71,15 +69,11 @@ extern "js" fn JsObject::set(
   #| (self, key, value) => self[key] = value
 
 ///|
-extern "js" fn JsObject::get(self : JsObject, key : String) -> JsValue =
-  #| (self, key) => self[key]
-
-///|
 extern "js" fn JsObject::as_value(self : JsObject) -> JsValue =
   #| (self) => self
 
 ///|
-type JsArray
+priv type JsArray
 
 ///|
 extern "js" fn JsArray::new() -> JsArray =

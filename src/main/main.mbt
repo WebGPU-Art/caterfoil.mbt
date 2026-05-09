@@ -6,7 +6,7 @@ struct Store {} derive(Default)
 ///|
 fn dispatch() -> Unit {
   render_app() catch {
-    e => println("\{e}")
+    e => println(e.message())
   }
 }
 
@@ -128,7 +128,7 @@ fn create_app() -> Unit {
   let document = window.document()
   let canvas = document.query_selector("canvas")
   render_app() catch {
-    e => println("\{e}")
+    e => println(e.message())
   }
   window.set_onresize(fn() {
     @caterfoil.reset_canvas_size(canvas)

@@ -15,8 +15,8 @@ pub fn Vertex::attrs() -> Array[CaterfoilAttribute] {
 ///|
 pub fn Vertex::to_value(
   self : Vertex,
-) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
-  let dict : @moonbitlang/core/hashmap.T[String, Array[Float]] = @moonbitlang/core/hashmap.new()
+) -> @hashmap.HashMap[String, Array[Float]] {
+  let dict : @hashmap.HashMap[String, Array[Float]] = @hashmap.new()
   dict["position"] = [
     self.position.x,
     self.position.y,
@@ -97,12 +97,12 @@ pub(all) struct PolylineVertex {
 /// ```
 pub fn PolylineVertex::to_value(
   self : PolylineVertex,
-) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
-  let dict : @moonbitlang/core/hashmap.T[String, Array[Float]] = @moonbitlang/core/hashmap.new()
+) -> @hashmap.HashMap[String, Array[Float]] {
+  let dict : @hashmap.HashMap[String, Array[Float]] = @hashmap.new()
   dict["position"] = self.position.to_xyzw()
   dict["color"] = [self.color.r, self.color.g, self.color.b, self.color.a]
   dict["direction"] = self.direction.to_xyzw()
-  dict["side"] = [self.side.to_float()] // need int but JavaScript auto converts
+  dict["side"] = [Float::from_int(self.side)] // need int but JavaScript auto converts
   dict
 }
 
@@ -154,7 +154,14 @@ pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
 /// ```
 pub(all) suberror BuilderError {
   BuilderError(String)
-} derive(Show)
+} derive(Debug)
+
+///|
+pub fn BuilderError::message(self : BuilderError) -> String {
+  match self {
+    BuilderError(message) => message
+  }
+}
 
 ///|
 /// turn a chunk of vertices into triangles data
@@ -173,7 +180,7 @@ pub fn create_vertex_data(
     let direction = vertex_next.position
       .op_sub(vertex.position)
       .normalize()
-      .scale(width.or(2.0))
+      .scale(width.unwrap_or(2.0))
     /// 2 triangles
     data.push(PolylineVertex::{
       position: vertex.position,
