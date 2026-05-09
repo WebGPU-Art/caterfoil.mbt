@@ -23,11 +23,8 @@ jobs:
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - name: moon update
-        run: moon update
-
       - name: moon check
-        run: moon check --target js --frozen
+        run: moon check --target js
 
       # - name: moon info
       #   run: |
