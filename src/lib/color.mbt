@@ -62,6 +62,7 @@ pub fn Color::gray(a? : Float) -> Color {
 }
 
 // orange
+
 ///|
 pub fn Color::orange(a? : Float) -> Color {
   Color::new(r=1.0, g=0.5, b=0.0, a=a.or(1))

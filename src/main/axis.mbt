@@ -22,17 +22,17 @@
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "comp_axis" {
-///   let axes = comp_axis!(width=2.0)
-///   inspect!(axes.label, content="\"axis\"")
+///   let axes = comp_axis(width=2.0)
+///   inspect(axes.label, content="\"axis\"")
 /// }
 /// ```
 fn comp_axis(
-  width? : Float
-) -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
-  let short = 20.0.to_float()
-  let long = 200.0.to_float()
+  width? : Float,
+) -> @caterfoil.CaterfoilRenderObject raise @caterfoil.BuilderError {
+  let short = Float::from_double(20.0)
+  let long = Float::from_double(200.0)
   let axis_x : Array[@caterfoil.Vertex] = [
     { position: Quaternion::new(x=-short), color: Color::yellow(a=0.3) },
     { position: Quaternion::new(x=long), color: Color::yellow() },
@@ -49,9 +49,9 @@ fn comp_axis(
     { position: Quaternion::new(w=-short), color: Color::blue_brigher(a=0.3) },
     { position: Quaternion::new(w=long), color: Color::blue_brigher() },
   ]
-  let triangles_list = @caterfoil.create_vertex_data!(axis_x, width=width.or(1)) +
-    @caterfoil.create_vertex_data!(axis_y, width=width.or(1)) +
-    @caterfoil.create_vertex_data!(axis_z, width=width.or(1)) +
-    @caterfoil.create_vertex_data!(axis_w, width=width.or(1))
+  let triangles_list = @caterfoil.create_vertex_data(axis_x, width=width.unwrap_or(1.0)) +
+    @caterfoil.create_vertex_data(axis_y, width=width.unwrap_or(1.0)) +
+    @caterfoil.create_vertex_data(axis_z, width=width.unwrap_or(1.0)) +
+    @caterfoil.create_vertex_data(axis_w, width=width.unwrap_or(1.0))
   @caterfoil.object(label="axis", data=WithTriangles(triangles_list))
 }

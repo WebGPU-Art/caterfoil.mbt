@@ -9,29 +9,31 @@ pub fn comp_quat_product(
   mode? : DemoMode,
   times? : Int,
   width? : Float,
-  multiplicand? : Quaternion
-) -> @caterfoil.CaterfoilRenderObject {
+  multiplicand? : Quaternion,
+) -> @caterfoil.CaterfoilRenderObject raise @caterfoil.BuilderError {
   let mut data : Array[PolylineVertex] = []
-  let multiplicand = multiplicand.or(
+  let multiplicand = multiplicand.unwrap_or(
     @quaternion.Quaternion::new(w=1.0, x=0.08).normalize().scale(1.006),
   )
-  fn iterate(p0 : Quaternion, times : Int) -> Unit {
+  fn iterate(
+    p0 : Quaternion,
+    times : Int,
+  ) -> Unit raise @caterfoil.BuilderError {
     let mut p = p0
     // println("p: \{p}")
     let trail : Array[Vertex] = []
     trail.push({ position: p.scale(20), color: Color::white(a=0.2) })
     for m = 0; m < times; m = m + 1 {
-      p = p * multiplicand
+      p = p.op_mul(multiplicand)
       trail.push({ position: p.scale(20), color: Color::white(a=0.4) })
     }
-    data = data +
-      @caterfoil.create_vertex_data?(trail, width=width.or(0.6)).unwrap()
+    data = data + @caterfoil.create_vertex_data(trail, width=width.unwrap_or(0.6))
   }
 
-  match mode.or(Single) {
+  match mode.unwrap_or(Single) {
     Single => {
       let p = @quaternion.qi(1, 4, 3, 4).scale(0.2)
-      iterate(p, times.or(200))
+      iterate(p, times.unwrap_or(200))
     }
     Grid => {
       let size : Int = 2
@@ -40,7 +42,7 @@ pub fn comp_quat_product(
           for k = 0; k < size; k = k + 1 {
             for l = 0; l < size; l = l + 1 {
               let p = @quaternion.qi(i, j, k, l).scale(2)
-              iterate(p, times.or(200))
+              iterate(p, times.unwrap_or(200))
             }
           }
         }

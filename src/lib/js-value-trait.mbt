@@ -56,13 +56,13 @@ impl JsValueTrait for JsArray with from_value(value : JsValue) -> JsArray {
 
 ///|
 extern "js" fn js_value_to_quaternion(
-  value : JsValue
+  value : JsValue,
 ) -> @quaternion.Quaternion =
   #| (value) => value
 
 ///|
 extern "js" fn quaternion_to_js_value(
-  value : @quaternion.Quaternion
+  value : @quaternion.Quaternion,
 ) -> JsValue =
   #| (value) => value
 

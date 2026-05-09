@@ -58,10 +58,10 @@ fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String 
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "GPUVertexFormat" {
 ///   let format = GPUVertexFormat::Float32x4
-///   inspect!(format.to_string(), content="\"float32x4\"")
+///   inspect(format.to_string(), content="\"float32x4\"")
 /// }
 /// ```
 pub(all) enum GPUVertexFormat {

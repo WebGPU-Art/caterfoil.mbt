@@ -9,9 +9,9 @@ fn rect(
   p2 : Quaternion,
   p3 : Quaternion,
   p4 : Quaternion,
-  color? : Color
+  color? : Color,
 ) -> Array[Vertex] {
-  let color = color.or(Color::new(r=1.0, g=0.5, b=0.2, a=0.6))
+  let color = color.unwrap_or(Color::new(r=1.0, g=0.5, b=0.2, a=0.6))
   [
     { position: p1, color },
     { position: p2, color },
@@ -27,24 +27,24 @@ fn rect(
 fn make_cube_data(
   offset : Quaternion,
   unit : Float,
-  color : Color
+  color : Color,
 ) -> Array[Vertex] {
-  let p1 = @quaternion.q(-unit, -unit, -unit, -unit) + offset
-  let p2 = @quaternion.q(unit, -unit, -unit, -unit) + offset
-  let p3 = @quaternion.q(unit, -unit, unit, -unit) + offset
-  let p4 = @quaternion.q(-unit, -unit, unit, -unit) + offset
-  let p5 = @quaternion.q(-unit, unit, -unit, -unit) + offset
-  let p6 = @quaternion.q(unit, unit, -unit, -unit) + offset
-  let p7 = @quaternion.q(unit, unit, unit, -unit) + offset
-  let p8 = @quaternion.q(-unit, unit, unit, -unit) + offset
-  let p11 = @quaternion.q(-unit, -unit, -unit, unit) + offset
-  let p12 = @quaternion.q(unit, -unit, -unit, unit) + offset
-  let p13 = @quaternion.q(unit, -unit, unit, unit) + offset
-  let p14 = @quaternion.q(-unit, -unit, unit, unit) + offset
-  let p15 = @quaternion.q(-unit, unit, -unit, unit) + offset
-  let p16 = @quaternion.q(unit, unit, -unit, unit) + offset
-  let p17 = @quaternion.q(unit, unit, unit, unit) + offset
-  let p18 = @quaternion.q(-unit, unit, unit, unit) + offset
+  let p1 = @quaternion.q(-unit, -unit, -unit, -unit).op_add(offset)
+  let p2 = @quaternion.q(unit, -unit, -unit, -unit).op_add(offset)
+  let p3 = @quaternion.q(unit, -unit, unit, -unit).op_add(offset)
+  let p4 = @quaternion.q(-unit, -unit, unit, -unit).op_add(offset)
+  let p5 = @quaternion.q(-unit, unit, -unit, -unit).op_add(offset)
+  let p6 = @quaternion.q(unit, unit, -unit, -unit).op_add(offset)
+  let p7 = @quaternion.q(unit, unit, unit, -unit).op_add(offset)
+  let p8 = @quaternion.q(-unit, unit, unit, -unit).op_add(offset)
+  let p11 = @quaternion.q(-unit, -unit, -unit, unit).op_add(offset)
+  let p12 = @quaternion.q(unit, -unit, -unit, unit).op_add(offset)
+  let p13 = @quaternion.q(unit, -unit, unit, unit).op_add(offset)
+  let p14 = @quaternion.q(-unit, -unit, unit, unit).op_add(offset)
+  let p15 = @quaternion.q(-unit, unit, -unit, unit).op_add(offset)
+  let p16 = @quaternion.q(unit, unit, -unit, unit).op_add(offset)
+  let p17 = @quaternion.q(unit, unit, unit, unit).op_add(offset)
+  let p18 = @quaternion.q(-unit, unit, unit, unit).op_add(offset)
   let vertexes : Array[Vertex] = rect(p1, p2, p3, p4, color~) +
     rect(p5, p6, p7, p8, color~) +
     rect(p1, p2, p6, p5, color~) +
@@ -69,10 +69,9 @@ fn make_cube_data(
 }
 
 ///|
-pub fn comp_hyper_cube_grid() ->
-     @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
+pub fn comp_hyper_cube_grid() -> @caterfoil.CaterfoilRenderObject raise @caterfoil.BuilderError {
   guard true else { raise @caterfoil.BuilderError("ok") }
-  let unit = 20.0.to_float()
+  let unit = Float::from_double(20.0)
   let mut vertex_list : Array[Vertex] = []
   for i = 0; i < 200; i = i + 1 {
     let offset = @quaternion.q(

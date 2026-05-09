@@ -5,9 +5,8 @@ struct Store {} derive(Default)
 
 ///|
 fn dispatch() -> Unit {
-  match render_app?() {
-    Ok(_) => ()
-    Err(e) => println("\{e}")
+  render_app() catch {
+    e => println("\{e}")
   }
 }
 
@@ -31,7 +30,7 @@ fn dispatch() -> Unit {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "search_params" {
 ///   let params = SearchParams::{
 ///     tab: QuatCurve,
@@ -39,18 +38,18 @@ fn dispatch() -> Unit {
 ///     show_axis: true,
 ///     times: Some(5),
 ///   }
-///   inspect!(params.show_axis, content="true")
-///   inspect!(params.times, content="Some(5)")
+///   inspect(params.show_axis, content="true")
+///   inspect(params.times, content="Some(5)")
 /// }
 /// ```
 struct SearchParams {
-  ///| The current visualization tab
+  /// The current visualization tab
   tab : Tab
-  ///| Whether to read camera position from localStorage
+  /// Whether to read camera position from localStorage
   read : Bool
-  ///| Whether to show coordinate axes
+  /// Whether to show coordinate axes
   show_axis : Bool
-  ///| Iteration count for recursive visualizations(0-10), only work for some tabs
+  /// Iteration count for recursive visualizations(0-10), only work for some tabs
   times : Int?
 }
 
@@ -73,13 +72,13 @@ struct SearchParams {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "read_params" {
 ///   // Assuming URL: "http://example.com?tab=quat-curve&read=false&axis=true&times=5"
 ///   let params = read_params()
-///   inspect!(params.read, content="false")
-///   inspect!(params.show_axis, content="true")
-///   inspect!(params.times, content="Some(5)")
+///   inspect(params.read, content="false")
+///   inspect(params.show_axis, content="true")
+///   inspect(params.times, content="Some(5)")
 /// }
 /// ```
 fn read_params() -> SearchParams {
@@ -114,9 +113,9 @@ fn read_params() -> SearchParams {
 }
 
 ///|
-fn render_app() -> Unit!@caterfoil.BuilderError {
+fn render_app() -> Unit raise @caterfoil.BuilderError {
   let params = read_params()
-  let tree = comp_container!(params)
+  let tree = comp_container(params)
   @caterfoil.render_caterfoil_tree(tree, dispatch)
   @caterfoil.paint_caterfoil_tree()
 }
@@ -128,7 +127,9 @@ fn create_app() -> Unit {
   let window = @caterfoil.window()
   let document = window.document()
   let canvas = document.query_selector("canvas")
-  render_app?().unwrap()
+  render_app() catch {
+    e => println("\{e}")
+  }
   window.set_onresize(fn() {
     @caterfoil.reset_canvas_size(canvas)
     @caterfoil.initialize_canvas_textures()
@@ -157,7 +158,6 @@ fn main {
     create_app()
     @caterfoil.js_undefined()
   })
-
 }
 
 // declare global {

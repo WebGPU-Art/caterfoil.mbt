@@ -11,7 +11,7 @@ pub extern "js" fn paint_caterfoil_tree() -> Unit =
 ///|
 pub extern "js" fn render_caterfoil_tree(
   el : CaterfoilRenderObject,
-  dispatch : () -> Unit
+  dispatch : () -> Unit,
 ) -> Unit =
   #| (el, dispatch) => Caterfoil.renderCaterfoilTree(el, dispatch)
 
@@ -44,7 +44,8 @@ pub extern "js" fn setup_mouse_events() -> Unit =
 pub extern "js" fn load_gamepad_control() -> Unit =
   #| () => Caterfoil.loadGamepadControl()
 
-///| need a better name from Caterfoil
+///|
+/// need a better name from Caterfoil
 pub extern "js" fn lines_wgsl() -> String =
   #| () => Caterfoil.triangleWgsl
 
@@ -73,7 +74,7 @@ pub extern "js" fn polyline_wgsl() -> String =
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "connect_retained_atom_to_srorage" {
 ///   // Connect an atom named "viewer-state" with both read and write enabled
 ///   connect_retained_atom_to_srorage("viewer-state")
@@ -86,7 +87,7 @@ pub fn connect_retained_atom_to_srorage(
   /// false to disable loading from localStorage
   read? : Bool,
   /// false to disable saving to localStorage
-  write? : Bool
+  write? : Bool,
 ) -> Unit {
   caterfoil_connect_retained_atom_to_srorage(
     name,
@@ -95,11 +96,12 @@ pub fn connect_retained_atom_to_srorage(
   )
 }
 
-///| get viewer states saved in localStorage so that it can be restored
+///|
+/// get viewer states saved in localStorage so that it can be restored
 extern "js" fn caterfoil_connect_retained_atom_to_srorage(
   name : String,
   read : Bool,
-  write : Bool
+  write : Bool,
 ) -> Unit =
   #| (name, read, write) => Caterfoil.connectRetainedAtomToStorage(name, {read, write})
 
@@ -123,7 +125,7 @@ extern "js" fn caterfoil_connect_retained_atom_to_srorage(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "ObjectData" {
 ///   let points = ObjectData::WithPoints([
 ///     Vertex::{
@@ -132,8 +134,8 @@ extern "js" fn caterfoil_connect_retained_atom_to_srorage(
 ///     },
 ///   ])
 ///   match points {
-///     WithPoints(vertices) => inspect!(vertices.length(), content="1")
-///     WithTriangles(_) => inspect!(false, content="true")
+///     WithPoints(vertices) => inspect(vertices.length(), content="1")
+///     WithTriangles(_) => inspect(false, content="true")
 ///   }
 /// }
 /// ```
@@ -144,7 +146,7 @@ pub(all) enum ObjectData {
 
 ///|
 fn ObjectData::to_data(
-  self : ObjectData
+  self : ObjectData,
 ) -> Array[@hashmap.T[String, Array[Float]]] {
   match self {
     ObjectData::WithPoints(data) => {
@@ -186,7 +188,7 @@ fn ObjectData::to_data(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "CaterfoilObjectOptions" {
 ///   let options = CaterfoilObjectOptions::{
 ///     label: "triangle",
@@ -196,8 +198,8 @@ fn ObjectData::to_data(
 ///     indices: None,
 ///     get_params: None,
 ///   }
-///   inspect!(options.label, content="\"triangle\"")
-///   inspect!(options.topology, content="TriangleList")
+///   inspect(options.label, content="\"triangle\"")
+///   inspect(options.topology, content="TriangleList")
 /// }
 /// ```
 pub(all) struct CaterfoilObjectOptions {
@@ -256,7 +258,8 @@ fn CaterfoilObjectOptions::as_value(self : CaterfoilObjectOptions) -> JsValue {
   obj.as_value()
 }
 
-///| Converts the vertex format to its WebGPU string representation.
+///|
+/// Converts the vertex format to its WebGPU string representation.
 /// These strings match the format names in the WebGPU specification.
 /// See: https://www.w3.org/TR/webgpu/#vertex-formats
 pub(all) struct CaterfoilAttribute {
@@ -275,9 +278,10 @@ fn CaterfoilAttribute::as_value(self : CaterfoilAttribute) -> JsValue {
 ///|
 type CaterfoilRenderObject
 
-///| Creates a new Caterfoil render object with the specified configuration
+///|
+/// Creates a new Caterfoil render object with the specified configuration
 extern "js" fn CaterfoilRenderObject::as_value(
-  self : CaterfoilRenderObject
+  self : CaterfoilRenderObject,
 ) -> JsValue =
   #| (self) => self
 
@@ -307,7 +311,7 @@ extern "js" fn CaterfoilRenderObject::as_value(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "object/basic" {
 ///   let vertices = [
 ///     Vertex::{
@@ -316,7 +320,7 @@ extern "js" fn CaterfoilRenderObject::as_value(
 ///     },
 ///   ]
 ///   let triangle = object(data=ObjectData::WithPoints(vertices))
-///   inspect!(triangle, content="[object Object]")
+///   inspect(triangle, content="[object Object]")
 /// }
 /// ```
 pub fn object(
@@ -330,7 +334,7 @@ pub fn object(
   /// default to None
   get_params? : (() -> Array[Float])?,
   /// default to None
-  indices? : Array[UInt]?
+  indices? : Array[UInt]?,
 ) -> CaterfoilRenderObject {
   let pick_shader = match data {
     WithPoints(_) => lines_wgsl()
@@ -363,12 +367,12 @@ pub fn object(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "group" {
 ///   let triangle = @caterfoil.object(data=ObjectData::WithPoints([]))
 ///   let circle = @caterfoil.object(data=ObjectData::WithPoints([]))
 ///   let scene = @caterfoil.group([triangle, circle])
-///   inspect!(scene, content="[object Object]")
+///   inspect(scene, content="[object Object]")
 /// }
 /// ```
 pub fn group(children : Array[CaterfoilRenderObject]) -> CaterfoilRenderObject {

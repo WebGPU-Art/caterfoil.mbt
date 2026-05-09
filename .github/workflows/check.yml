@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -19,11 +19,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: "yarn"
+          cache-dependency-path: yarn.lock
 
       - name: moon check
-        run: moon update && moon check
+        run: moon check --target js --frozen
 
       # - name: moon info
       #   run: |
@@ -32,10 +33,10 @@ jobs:
 
       - name: moon test
         run: |
-          moon build --target js --debug
+          moon build --target js --debug --frozen
 
       - name: "compiles to js"
-        run: yarn && yarn vite build --base=./
+        run: corepack enable && yarn install --immutable && yarn vite build --base=./
 
       # - name: moon bundle
       #   run: moon bundle
@@ -49,6 +50,7 @@ jobs:
       #     git diff
 
       - name: Deploy to server
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         id: deploy
         uses: Pendect/action-rsyncer@v2.0.0
         env:
@@ -61,4 +63,5 @@ jobs:
           dest: "rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}"
 
       - name: Display status from deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: echo "${{ steps.deploy.outputs.status }}"
