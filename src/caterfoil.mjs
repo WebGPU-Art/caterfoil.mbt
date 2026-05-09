@@ -5,7 +5,7 @@ window.Caterfoil = Caterfoil;
 console.log("Caterfoil loaded", Caterfoil);
 
 // load js code which Vite does not detect
-import("../target/js/debug/build/main/main.js")
+import("../_build/js/debug/build/main/main.js")
   .then((module) => {
     console.log("mbt app loaded", module);
   })

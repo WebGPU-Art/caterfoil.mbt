@@ -1,0 +1,4 @@
+import {
+  "moonbitlang/core/hashmap" @hashmap,
+  "tiye/quaternion/lib" @quaternion,
+}

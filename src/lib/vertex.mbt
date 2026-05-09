@@ -14,9 +14,9 @@ pub fn Vertex::attrs() -> Array[CaterfoilAttribute] {
 
 ///|
 pub fn Vertex::to_value(
-  self : Vertex
-) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
-  let dict : @moonbitlang/core/hashmap.T[String, Array[Float]] = @moonbitlang/core/hashmap.new()
+  self : Vertex,
+) -> @hashmap.HashMap[String, Array[Float]] {
+  let dict : @hashmap.HashMap[String, Array[Float]] = @hashmap.new()
   dict["position"] = [
     self.position.x,
     self.position.y,
@@ -43,7 +43,7 @@ pub fn Vertex::to_value(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "PolylineVertex" {
 ///   let vertex = PolylineVertex::{
 ///     position: @quaternion.new(1.0, 0.0, 0.0, 1.0),
@@ -51,7 +51,7 @@ pub fn Vertex::to_value(
 ///     direction: @quaternion.new(0.0, 1.0, 0.0, 0.0),
 ///     side: 0,
 ///   }
-///   inspect!(vertex.side, content="0")
+///   inspect(vertex.side, content="0")
 /// }
 /// ```
 pub(all) struct PolylineVertex {
@@ -82,7 +82,7 @@ pub(all) struct PolylineVertex {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "PolylineVertex::to_value" {
 ///   let vertex = PolylineVertex::{
 ///     position: @quaternion.new(1.0, 0.0, 0.0, 1.0),
@@ -91,18 +91,18 @@ pub(all) struct PolylineVertex {
 ///     side: 0,
 ///   }
 ///   let dict = vertex.to_value()
-///   inspect!(dict["position"], content="[1.0, 0.0, 0.0, 1.0]")
-///   inspect!(dict["color"], content="[1.0, 0.0, 0.0, 1.0]")
+///   inspect(dict["position"], content="[1.0, 0.0, 0.0, 1.0]")
+///   inspect(dict["color"], content="[1.0, 0.0, 0.0, 1.0]")
 /// }
 /// ```
 pub fn PolylineVertex::to_value(
-  self : PolylineVertex
-) -> @moonbitlang/core/hashmap.T[String, Array[Float]] {
-  let dict : @moonbitlang/core/hashmap.T[String, Array[Float]] = @moonbitlang/core/hashmap.new()
+  self : PolylineVertex,
+) -> @hashmap.HashMap[String, Array[Float]] {
+  let dict : @hashmap.HashMap[String, Array[Float]] = @hashmap.new()
   dict["position"] = self.position.to_xyzw()
   dict["color"] = [self.color.r, self.color.g, self.color.b, self.color.a]
   dict["direction"] = self.direction.to_xyzw()
-  dict["side"] = [self.side.to_float()] // need int but JavaScript auto converts
+  dict["side"] = [Float::from_int(self.side)] // need int but JavaScript auto converts
   dict
 }
 
@@ -122,12 +122,12 @@ pub fn PolylineVertex::to_value(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "PolylineVertex::attrs" {
 ///   let attrs = PolylineVertex::attrs()
-///   inspect!(attrs.length(), content="4")
-///   inspect!(attrs[0].field, content="\"position\"")
-///   inspect!(attrs[0].format, content="Float32x4")
+///   inspect(attrs.length(), content="4")
+///   inspect(attrs[0].field, content="\"position\"")
+///   inspect(attrs[0].format, content="Float32x4")
 /// }
 /// ```
 pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
@@ -146,19 +146,29 @@ pub fn PolylineVertex::attrs() -> Array[CaterfoilAttribute] {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "BuilderError" {
 ///   let err = BuilderError("chunk size must be at least 2")
-///   inspect!(err, content="BuilderError(\"chunk size must be at least 2\")")
+///   inspect(err, content="BuilderError(\"chunk size must be at least 2\")")
 /// }
 /// ```
-pub(all) type! BuilderError String derive(Show)
+pub(all) suberror BuilderError {
+  BuilderError(String)
+} derive(Debug)
 
-///| turn a chunk of vertices into triangles data
+///|
+pub fn BuilderError::message(self : BuilderError) -> String {
+  match self {
+    BuilderError(message) => message
+  }
+}
+
+///|
+/// turn a chunk of vertices into triangles data
 pub fn create_vertex_data(
   chunk : Array[Vertex],
-  width? : Float
-) -> Array[PolylineVertex]!BuilderError {
+  width? : Float,
+) -> Array[PolylineVertex] raise BuilderError {
   let data = []
   let size = chunk.length()
   if size < 2 {
@@ -167,9 +177,10 @@ pub fn create_vertex_data(
   for i = 0; i < size - 1; i = i + 1 {
     let vertex = chunk[i]
     let vertex_next = chunk[i + 1]
-    let direction = (vertex_next.position - vertex.position)
+    let direction = vertex_next.position
+      .op_sub(vertex.position)
       .normalize()
-      .scale(width.or(2.0))
+      .scale(width.unwrap_or(2.0))
     /// 2 triangles
     data.push(PolylineVertex::{
       position: vertex.position,

@@ -1,0 +1,17 @@
+import {
+  "moonbitlang/core/math" @math,
+  "tiye/quaternion/lib" @quaternion,
+  "tiye/caterfoil/lib" @caterfoil,
+  "tiye/dom-ffi" @dom_ffi,
+}
+
+options(
+  "is-main": true,
+  "pre-build": [
+    {
+      "command": ":embed -i $input -o $output --name _triangle_wgsl",
+      "input": "shader/triangle.wgsl",
+      "output": "shader-triangle.mbt",
+    },
+  ],
+)

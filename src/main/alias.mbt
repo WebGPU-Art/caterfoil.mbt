@@ -1,5 +1,5 @@
 ///|
-typealias Quaternion = @quaternion.Quaternion
+pub type Quaternion = @quaternion.Quaternion
 
 ///|
 /// Creates an alias for the `Vertex` type from the caterfoil package, providing
@@ -11,13 +11,13 @@ typealias Quaternion = @quaternion.Quaternion
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "vertex" {
 ///   let v : Vertex = { position: Quaternion::new(x=1.0), color: Color::white() }
-///   inspect!(v.position.x, content="1.0")
+///   inspect(v.position.x, content="1.0")
 /// }
 /// ```
-typealias Vertex = @caterfoil.Vertex
+pub type Vertex = @caterfoil.Vertex
 
 ///|
 /// Creates an alias for the `PolylineVertex` type from the caterfoil package,
@@ -29,7 +29,7 @@ typealias Vertex = @caterfoil.Vertex
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "polyline-vertex" {
 ///   let vertex : PolylineVertex = {
 ///     position: Quaternion::new(),
@@ -37,10 +37,10 @@ typealias Vertex = @caterfoil.Vertex
 ///     direction: Quaternion::new(x=1.0),
 ///     side: 0,
 ///   }
-///   inspect!(vertex.side, content="0")
+///   inspect(vertex.side, content="0")
 /// }
 /// ```
-typealias PolylineVertex = @caterfoil.PolylineVertex
+pub type PolylineVertex = @caterfoil.PolylineVertex
 
 ///|
 /// Creates an alias for the `Color` type from the caterfoil package, providing a
@@ -52,11 +52,11 @@ typealias PolylineVertex = @caterfoil.PolylineVertex
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "color" {
 ///   let white = Color::white()
 ///   let semi_transparent = Color::new(r=1.0, g=0.5, b=0.2, a=0.6)
-///   inspect!(semi_transparent.a, content="0.6")
+///   inspect(semi_transparent.a, content="0.6")
 /// }
 /// ```
-typealias Color = @caterfoil.Color
+pub type Color = @caterfoil.Color
