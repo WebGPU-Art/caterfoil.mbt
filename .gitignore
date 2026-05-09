@@ -11,3 +11,7 @@ dist/
 target/
 
 .mooncakes/
+
+.yarn/*.gz
+
+_build
