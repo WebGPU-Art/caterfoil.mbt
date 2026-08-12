@@ -8,11 +8,6 @@ pub(all) enum ShaderPrimitiveTopology {
 }
 
 ///|
-fn ShaderPrimitiveTopology::default() -> ShaderPrimitiveTopology {
-  LineList
-}
-
-///|
 fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String {
   match self {
     PointList => "point-list"
@@ -58,10 +53,10 @@ fn ShaderPrimitiveTopology::to_string(self : ShaderPrimitiveTopology) -> String 
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// test "GPUVertexFormat" {
 ///   let format = GPUVertexFormat::Float32x4
-///   inspect!(format.to_string(), content="\"float32x4\"")
+///   inspect(format.to_string(), content="\"float32x4\"")
 /// }
 /// ```
 pub(all) enum GPUVertexFormat {

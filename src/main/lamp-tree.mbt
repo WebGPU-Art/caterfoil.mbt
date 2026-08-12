@@ -8,29 +8,69 @@ fn fold_line4(
   c : Quaternion,
   d : Quaternion,
   full_ : Quaternion,
-  minimal_seg : Float
+  minimal_seg : Float,
 ) -> Array[Quaternion] {
-  let v_ = v * full_
-  let br_a = v_ * a
-  let br_b = v_ * b
-  let br_c = v_ * c
-  let br_d = v_ * d
+  let v_ = v.op_mul(full_)
+  let br_a = v_.op_mul(a)
+  let br_b = v_.op_mul(b)
+  let br_c = v_.op_mul(c)
+  let br_d = v_.op_mul(d)
   if level == 0 || v.square_length() <= minimal_seg {
-    [base + br_a, base + br_b, base + br_c, base + v]
+    [base.op_add(br_a), base.op_add(br_b), base.op_add(br_c), base.op_add(v)]
   } else {
     let l2 = level - 1
     fold_line4(l2, base, br_a, a, b, c, d, full_, minimal_seg) +
-    fold_line4(l2, base + br_a, br_b - br_a, a, b, c, d, full_, minimal_seg) +
-    fold_line4(l2, base + br_b, br_c - br_b, a, b, c, d, full_, minimal_seg) +
-    fold_line4(l2, base + br_c, br_d - br_c, a, b, c, d, full_, minimal_seg) +
-    fold_line4(l2, base + br_d, v - br_d, a, b, c, d, full_, minimal_seg)
+    fold_line4(
+      l2,
+      base.op_add(br_a),
+      br_b.op_sub(br_a),
+      a,
+      b,
+      c,
+      d,
+      full_,
+      minimal_seg,
+    ) +
+    fold_line4(
+      l2,
+      base.op_add(br_b),
+      br_c.op_sub(br_b),
+      a,
+      b,
+      c,
+      d,
+      full_,
+      minimal_seg,
+    ) +
+    fold_line4(
+      l2,
+      base.op_add(br_c),
+      br_d.op_sub(br_c),
+      a,
+      b,
+      c,
+      d,
+      full_,
+      minimal_seg,
+    ) +
+    fold_line4(
+      l2,
+      base.op_add(br_d),
+      v.op_sub(br_d),
+      a,
+      b,
+      c,
+      d,
+      full_,
+      minimal_seg,
+    )
   }
 }
 
 ///|
 pub fn comp_lamp_tree(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
   let lamp_tree = fold_line4(
-    times.or(10),
+    times.unwrap_or(10),
     Quaternion::default(),
     Quaternion::new(y=100.0),
     Quaternion::new(y=20.0, w=22.0),
@@ -60,7 +100,7 @@ pub fn comp_lamp_tree(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
 ///|
 pub fn comp_fly_city(times? : UInt) -> @caterfoil.CaterfoilRenderObject {
   let fly_city = fold_line4(
-    times.or(10),
+    times.unwrap_or(10),
     Quaternion::default(),
     Quaternion::new(x=200.0),
     Quaternion::new(y=20.0, w=25.0),

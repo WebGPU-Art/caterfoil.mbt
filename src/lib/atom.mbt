@@ -4,30 +4,32 @@ struct Atom[T] {
 }
 
 ///|
-pub fn Atom::with_value[T](value : T) -> Atom[T] {
+pub fn[T] Atom::with_value(value : T) -> Atom[T] {
   { value, }
 }
 
 ///|
-pub fn Atom::deref[T](self : Atom[T]) -> T {
+pub fn[T] Atom::deref(self : Atom[T]) -> T {
   self.value
 }
 
 ///|
-pub fn Atom::reset[T](self : Atom[T], value : T) -> Unit {
+pub fn[T] Atom::reset(self : Atom[T], value : T) -> Unit {
   self.value = value
 }
 
-///| value that retained when code refreshes by Vite
+///|
+/// value that retained when code refreshes by Vite
 pub(all) struct RetainedAtom {
   name : String
   // value stroed in JavaScript runtime
 }
 
 ///|
-pub fn RetainedAtom::with_value[T : JsValueTrait](
+#callsite(autofill(loc))
+pub fn[T : JsValueTrait] RetainedAtom::with_value(
   value : T,
-  loc~ : SourceLoc = _
+  loc~ : SourceLoc,
 ) -> RetainedAtom {
   retain_atom_reset(loc.to_string(), value.to_value())
   RetainedAtom::{ name: loc.to_string() }
@@ -41,7 +43,7 @@ pub extern "js" fn retain_atom_reset(name : String, value : JsValue) -> Unit =
   #| }
 
 ///|
-pub fn RetainedAtom::deref[T : JsValueTrait](self : RetainedAtom) -> T {
+pub fn[T : JsValueTrait] RetainedAtom::deref(self : RetainedAtom) -> T {
   let value = retain_atom_deref(self.name)
   JsValueTrait::from_value(value)
 }
@@ -54,9 +56,9 @@ pub extern "js" fn retain_atom_deref(name : String) -> JsValue =
   #| }
 
 ///|
-pub fn RetainedAtom::reset[T : JsValueTrait](
+pub fn[T : JsValueTrait] RetainedAtom::reset(
   self : RetainedAtom,
-  value : T
+  value : T,
 ) -> Unit {
   retain_atom_reset(self.name, value.to_value())
 }

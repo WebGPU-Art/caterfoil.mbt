@@ -1,6 +1,6 @@
 ///|
-fn comp_prime_walk() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError {
-  let unit = 2.0.to_float()
+fn comp_prime_walk() -> @caterfoil.CaterfoilRenderObject raise @caterfoil.BuilderError {
+  let unit = Float::from_double(2.0)
   let steps = [
     Quaternion::new(x=unit),
     Quaternion::new(y=unit),
@@ -24,13 +24,13 @@ fn comp_prime_walk() -> @caterfoil.CaterfoilRenderObject!@caterfoil.BuilderError
     //   " " +
     //   step.scale(v.to_float()).to_string(),
     // )
-    let next_position = position + step.scale((v - prev).to_float())
+    let next_position = position.op_add(step.scale(Float::from_uint(v - prev)))
     // let color = Color::new(r=1.0, g=0.5, b=0.2, a=0.6)
     let trail : Array[@caterfoil.Vertex] = [
       { position, color: Color::blue_brigher() },
       { position: next_position, color: Color::blue_brigher() },
     ]
-    let triangles_list = @caterfoil.create_vertex_data!(trail, width=1)
+    let triangles_list = @caterfoil.create_vertex_data(trail, width=1)
     data = data + triangles_list
     position = next_position
     prev = v

@@ -10,11 +10,12 @@ fn Triangle::new(a : Quaternion, b : Quaternion, c : Quaternion) -> Triangle {
   Triangle::{ a, b, c }
 }
 
-///| split the triangle into 4 triangles from middle points of each edge
+///|
+/// split the triangle into 4 triangles from middle points of each edge
 fn Triangle::split_4(self : Triangle) -> Array[Triangle] {
-  let ab = (self.a + self.b).scale(0.5).normalize()
-  let bc = (self.b + self.c).scale(0.5).normalize()
-  let ca = (self.c + self.a).scale(0.5).normalize()
+  let ab = self.a.op_add(self.b).scale(0.5).normalize()
+  let bc = self.b.op_add(self.c).scale(0.5).normalize()
+  let ca = self.c.op_add(self.a).scale(0.5).normalize()
   [
     Triangle::new(self.a, ab, ca),
     Triangle::new(ab, self.b, bc),
@@ -30,7 +31,7 @@ fn Triangle::lines_points(self : Triangle) -> Array[Quaternion] {
 
 ///|
 pub fn comp_sphere_tessellation(
-  times? : Int
+  times? : Int,
 ) -> @caterfoil.CaterfoilRenderObject {
   let p1 = Quaternion::new(x=1.0)
   let p2 = Quaternion::new(x=-1.0)
@@ -78,7 +79,7 @@ pub fn comp_sphere_tessellation(
     Triangle::new(p4, p6, p7),
     Triangle::new(p4, p6, p8),
   ]
-  let times = times.or(6)
+  let times = times.unwrap_or(6)
   for i = 0; i < times; i = i + 1 {
     let next_triangles : Array[Triangle] = []
     for triangle in triangles {
@@ -90,7 +91,7 @@ pub fn comp_sphere_tessellation(
   }
   let data = []
   for idx, triangle in triangles.iter2() {
-    let at = idx.to_float() / triangles.length().to_float()
+    let at = Float::from_int(idx) / Float::from_int(triangles.length())
     let color = if at < 0.25 {
       Color::orange()
     } else if at < 0.5 {
